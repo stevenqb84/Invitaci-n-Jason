@@ -3,26 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>¡Hola, Jason! ⚡</title>
+  <title>Una Invitación Especial | Para Jason 🎻</title>
   
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Paytone+One&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-dark: #0f1016;
-      --card-bg: #181925;
-      --cyan-neon: #00f3ff;
-      --yellow-neon: #ffcc00;
-      --purple-btn: #7000ff;
-      --purple-btn-hover: #8c28ff;
-      --dark-border: #050508;
-      --light-text: #e2e8f0;
-      --subtext-yellow: #ffcc00;
-      --red-accent: #ff3366;
+      --bg-dark: #0f111a;
+      --card-bg: #181a26;
+      --gold-primary: #d4af37;
+      --gold-light: #f3e5ab;
+      --gold-border: #997a15;
+      --text-light: #f8f9fa;
+      --text-muted: #c2c7d0;
+      --correct-green: #2e7d32;
+      --present-yellow: #b78103;
+      --absent-gray: #3a3f51;
     }
 
     * {
@@ -33,7 +33,7 @@
     }
 
     body {
-      background: radial-gradient(circle at center, #1a1c29 0%, #08090d 100%);
+      background: radial-gradient(circle at center, #1a1d2e 0%, #080910 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -42,25 +42,23 @@
       padding: 15px;
       overflow: hidden;
       position: relative;
-      font-family: 'Fredoka', 'Paytone One', sans-serif;
-      color: var(--light-text);
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-light);
     }
 
-    /* Escenario MÓVIL con Estilo Arcade Retro */
+    /* Marco Elegante */
     .scene {
       width: 100%;
-      max-width: 380px;
-      height: 620px;
+      max-width: 390px;
+      height: 640px;
       position: relative;
       overflow: hidden;
-      border-radius: 24px;
-      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25), 0 0 10px rgba(112, 0, 255, 0.4);
-      border: 3px solid var(--cyan-neon);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.2);
+      border: 2px solid var(--gold-primary);
       background-color: var(--card-bg);
-      background-image: 
-        linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
-      background-size: 20px 20px;
+      background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 0);
+      background-size: 24px 24px;
     }
 
     /* Tarjetas que se deslizan */
@@ -70,11 +68,11 @@
       height: 100%;
       top: 0;
       left: 0;
-      padding: 24px 20px;
+      padding: 28px 22px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
       opacity: 0;
       pointer-events: none;
       transform: translateY(100%);
@@ -97,170 +95,184 @@
       z-index: 1;
     }
 
-    /* Estilos de Tipografías Arcade */
-    .title-retro-caps {
-      font-family: 'Paytone One', sans-serif;
-      color: var(--yellow-neon);
+    /* Tipografías */
+    .title-cinzel {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-primary);
       letter-spacing: 2px;
-      font-size: 18px;
+      font-size: 20px;
       text-transform: uppercase;
-      line-height: 1.3;
-      text-shadow: 2px 2px 0px #000;
+      line-height: 1.4;
     }
 
-    .title-script {
-      font-family: 'Press Start 2P', cursive;
-      color: var(--cyan-neon);
-      font-size: 26px;
-      text-shadow: 3px 3px 0px #7000ff, -2px -2px 0px #000;
-      margin: 12px 0;
-      line-height: 1.3;
+    .subtitle-garamond {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      color: var(--gold-light);
+      font-size: 28px;
+      margin: 10px 0;
+      line-height: 1.2;
     }
 
-    .title-script-small {
-      font-family: 'Paytone One', sans-serif;
-      color: var(--cyan-neon);
-      font-size: 24px;
-      text-shadow: 2px 2px 0px #000;
+    p.text-elegant {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 300;
     }
 
-    p.text-retro {
-      font-family: 'Fredoka', sans-serif;
-      color: #cbd5e1;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    /* Botones Neón Retro con Sombra Fuerte */
-    .btn-retro {
-      background-color: var(--purple-btn);
-      color: #fff;
-      font-family: 'Paytone One', sans-serif;
-      font-size: 14px;
+    /* Botones Elegantes Dorado / Cristal */
+    .btn-gold {
+      background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
+      color: #000;
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 700;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      padding: 14px 18px;
-      border: 2px solid var(--cyan-neon);
+      padding: 14px 20px;
+      border: 1px solid var(--gold-light);
       border-radius: 8px;
-      box-shadow: 4px 4px 0px var(--dark-border), 0 0 10px rgba(0, 243, 255, 0.3);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.2s ease;
       width: 100%;
       margin-bottom: 6px;
     }
 
-    .btn-retro:active {
-      transform: translate(3px, 3px);
-      box-shadow: 1px 1px 0px var(--dark-border);
+    .btn-gold:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
     }
 
     .btn-group {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
-    /* Marcos de Foto */
+    /* Marco de Foto Clásico */
     .img-frame {
       width: 100%;
       border-radius: 12px;
       overflow: hidden;
-      border: 3px solid var(--cyan-neon);
-      box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-      margin: 10px 0;
+      border: 1px solid var(--gold-primary);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      margin: 14px 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #0f1016;
+      background: #000;
     }
 
     .img-frame img {
       width: 100%;
       height: auto;
-      max-height: 240px;
-      object-fit: contain;
+      max-height: 220px;
+      object-fit: cover;
       display: block;
     }
 
-    /* Minijuego Snake Estilo Retro Arcade */
-    .snake-container {
+    /* Elementos Decorativos */
+    .deco-music-top {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 30px;
+      opacity: 0.4;
+      color: var(--gold-primary);
+    }
+
+    .deco-music-bottom {
+      position: absolute;
+      bottom: 10px; left: 15px;
+      font-size: 30px;
+      opacity: 0.4;
+      color: var(--gold-primary);
+    }
+
+    /* Estilos del Juego Wordle */
+    .wordle-board {
       display: flex;
       flex-direction: column;
+      gap: 6px;
+      margin: 15px 0;
       align-items: center;
+    }
+
+    .wordle-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .wordle-tile {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--absent-gray);
+      border-radius: 6px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-light);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .wordle-tile.correct {
+      background-color: var(--correct-green);
+      border-color: var(--correct-green);
+    }
+
+    .wordle-tile.present {
+      background-color: var(--present-yellow);
+      border-color: var(--present-yellow);
+    }
+
+    .wordle-tile.absent {
+      background-color: var(--absent-gray);
+      border-color: var(--absent-gray);
+    }
+
+    .wordle-input-container {
+      display: flex;
       gap: 8px;
       margin-top: 10px;
     }
 
-    #snakeCanvas {
-      background-color: #0d0e15;
-      border: 3px solid var(--cyan-neon);
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-      touch-action: none;
-    }
-
-    .control-row {
-      display: flex;
-      gap: 12px;
-    }
-
-    .arrow-btn {
-      width: 44px;
-      height: 44px;
-      background: var(--purple-btn);
-      border: 2px solid var(--cyan-neon);
-      color: #fff;
-      border-radius: 8px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 18px;
-      box-shadow: 2px 2px 0px #000;
-      user-select: none;
-    }
-
-    .arrow-btn:active {
-      transform: translate(2px, 2px);
-      box-shadow: 0px 0px 0px #000;
-    }
-
-    /* Elementos Decorativos Flotantes */
-    .deco-flower-top {
-      position: absolute;
-      top: -5px; right: -5px;
-      font-size: 45px;
-      pointer-events: none;
-      filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.6));
-    }
-
-    .deco-flower-bottom {
-      position: absolute;
-      bottom: -5px; left: -5px;
-      font-size: 45px;
-      pointer-events: none;
-      filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.6));
+    .wordle-input {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--gold-primary);
+      border-radius: 6px;
+      padding: 10px;
+      color: var(--gold-light);
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: 3px;
+      width: 70%;
     }
 
     .timeline-item {
-      background: #202232;
-      border: 2px solid var(--cyan-neon);
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 13px;
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 2px solid var(--gold-primary);
+      border-radius: 0 8px 8px 0;
+      padding: 12px;
+      font-size: 12px;
       text-align: left;
-      color: #e2e8f0;
-      font-family: 'Fredoka', sans-serif;
-      margin-bottom: 8px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
     }
 
-    /* Pantalla Final Botones */
+    /* Pantalla Final */
     .final-btns {
       position: relative;
-      height: 110px;
+      height: 100px;
       margin-top: 20px;
     }
 
@@ -269,8 +281,9 @@
       width: 46%;
       right: 0;
       top: 0;
-      background: #334155;
-      border-color: #64748b;
+      background: #2b2e3a;
+      border-color: #4a4e61;
+      color: #a0a5b5;
     }
 
     #yesBtn {
@@ -278,14 +291,11 @@
       width: 46%;
       left: 0;
       top: 0;
-      background: #00c853;
-      border-color: #b9f6ca;
     }
 
     .footer-note {
       font-size: 11px;
-      color: #94a3b8;
-      font-family: 'Fredoka', sans-serif;
+      color: #8a8f9d;
     }
   </style>
 </head>
@@ -294,129 +304,118 @@
   <div class="scene">
 
     <div class="card active" id="cardHome">
-      <div class="deco-flower-top">⚡</div>
+      <div class="deco-music-top">🎻</div>
       <div style="margin-top: 15px;">
-        <p class="title-retro-caps" style="font-size: 20px;">¡HOLA, JASON!</p>
-        <p class="title-retro-caps" style="margin-top: 15px; font-size: 14px;">TU AMISTAD ES UNA</p>
+        <p class="title-cinzel">HOLA, JASON</p>
+        <h2 class="subtitle-garamond">Una gran amistad es como una sinfonía perfecta...</h2>
         
-        <h1 class="title-script">LEYENDA</h1>
-        
-        <p class="title-retro-caps" style="font-size: 14px; margin-bottom: 10px;">DE HERMANDAD 🍻</p>
+        <p class="text-elegant" style="margin-bottom: 10px;">
+          Escrita con los mejores momentos y las notas de una verdadera hermandad.
+        </p>
         
         <div class="img-frame">
-          <img src="Imagen1.jpeg" alt="Foto juntos" onerror="this.onerror=null; this.src='Imagen1.jpg';">
+          <img src="Imagen1.jpeg" alt="Recuerdo juntos" onerror="this.onerror=null; this.src='Imagen1.jpg';">
         </div>
       </div>
 
       <div>
-        <button class="btn-retro" onclick="goToCard('cardMenu')">PRESIONA START 🎮</button>
+        <button class="btn-gold" onclick="goToCard('cardMenu')">INGRESAR 🎼</button>
       </div>
-      <div class="deco-flower-bottom">🎮</div>
+      <div class="deco-music-bottom">🎹</div>
     </div>
 
     <div class="card" id="cardMenu">
       <div style="margin-top: 20px;">
-        <p class="title-retro-caps" style="font-size: 20px;">MODO DE JUEGO 🕹️</p>
-        <p class="title-retro-caps" style="font-size: 13px; margin-top: 6px;">SELECCIONA UNA OPCIÓN</p>
+        <p class="title-cinzel">SELECCIONA UNA OPCIÓN</p>
+        <p class="text-elegant" style="margin-top: 8px;">Explora la experiencia antes de continuar</p>
       </div>
 
-      <div class="btn-group" style="margin-top: 20px;">
-        <button class="btn-retro" onclick="startNostalgia()">MODO NOSTALGIA 📜</button>
-        <button class="btn-retro" onclick="startQuiz()">MODO QUIZ 🧩</button>
-        <button class="btn-retro" onclick="startSnake()">MODO GAMER 🐍</button>
-        <button class="btn-retro" onclick="startTimeline()">LÍNEA DE TIEMPO ⏳</button>
+      <div class="btn-group">
+        <button class="btn-gold" onclick="startNostalgia()">NUESTRA HISTORIA 📜</button>
+        <button class="btn-gold" onclick="startWordle()">DESAFÍO PALABRA SECRETA 🧩</button>
+        <button class="btn-gold" onclick="startTimeline()">LÍNEA DEL TIEMPO ⏳</button>
       </div>
 
       <div style="margin-bottom: 10px;">
-        <p class="footer-note">(Puedes probar los otros modos después)</p>
+        <p class="footer-note">Pasa el desafío para desbloquear el mensaje principal</p>
       </div>
-      <div class="deco-flower-bottom">🔥</div>
+      <div class="deco-music-bottom">🎼</div>
     </div>
 
     <div class="card" id="cardNostalgia">
       <div id="nostalgiaContent"></div>
       <div>
         <div class="btn-group" id="nostalgiaBtns">
-          <button class="btn-retro" onclick="nextNostalgiaStep()">SIGUIENTE →</button>
+          <button class="btn-gold" onclick="nextNostalgiaStep()">SIGUIENTE →</button>
         </div>
       </div>
     </div>
 
-    <div class="card" id="cardQuiz">
-      <div id="quizContent"></div>
-    </div>
-
-    <div class="card" id="cardSnake">
+    <div class="card" id="cardWordle">
       <div>
-        <p class="title-retro-caps" style="font-size: 18px;">MODO GAMER 🎮</p>
-        <p class="text-retro" style="font-size: 12px; margin-top: 4px;">Atrapa 3 pizzas 🍕 para desbloquear el nivel</p>
+        <p class="title-cinzel" style="font-size: 16px;">PALABRA SECRETA 🧩</p>
+        <p class="text-elegant" style="font-size: 11px; margin-top: 4px;">Descubre la palabra clave de 6 letras para ingresar</p>
         
-        <div class="snake-container">
-          <canvas id="snakeCanvas" width="220" height="170"></canvas>
-          
-          <div class="snake-controls">
-            <div class="arrow-btn" onclick="changeSnakeDir('UP')">▲</div>
-            <div class="control-row">
-              <div class="arrow-btn" onclick="changeSnakeDir('LEFT')">◄</div>
-              <div class="arrow-btn" onclick="changeSnakeDir('DOWN')">▼</div>
-              <div class="arrow-btn" onclick="changeSnakeDir('RIGHT')">►</div>
-            </div>
+        <div class="wordle-board" id="wordleBoard">
           </div>
+
+        <div class="wordle-input-container">
+          <input type="text" id="wordleInput" class="wordle-input" maxlength="6" placeholder="______" autocomplete="off">
+          <button class="btn-gold" style="width: 30%; margin:0; padding: 10px;" onclick="submitWordleGuess()">PROBAR</button>
         </div>
-        <p id="snakeStatus" class="title-retro-caps" style="font-size: 12px; margin-top: 6px;">Pizzas: 0/3</p>
+        <p id="wordleStatus" class="text-elegant" style="font-size: 11px; margin-top: 8px; color: var(--gold-light);"></p>
       </div>
       <div>
-        <button class="btn-retro" style="font-size: 11px; padding: 8px;" onclick="goToCard('cardMenu')">← Menú Principal</button>
+        <button class="btn-gold" style="font-size: 10px; padding: 10px;" onclick="goToCard('cardMenu')">← MENÚ PRINCIPAL</button>
       </div>
     </div>
 
     <div class="card" id="cardTimeline">
       <div>
-        <p class="title-retro-caps" style="font-size: 18px; margin-bottom: 12px;">HISTORIA DE HERMANDAD 📖</p>
+        <p class="title-cinzel" style="font-size: 17px; margin-bottom: 15px;">MOMENTO A MOMENTO 🎻</p>
         
         <div class="timeline">
-          <div class="timeline-item">📍 <b>Inicios:</b> Nos conocimos y empezó una gran amistad.</div>
-          <div class="timeline-item">⚽ <b>Aventuras:</b> Salidas, partidos y desveladas inolvidables.</div>
-          <div class="timeline-item">🍻 <b>Las buenas y las malas:</b> Siempre firmes en cualquier momento.</div>
-          <div class="timeline-item">👑 <b>Hoy:</b> Años de amistad y anécdotas que valen oro.</div>
+          <div class="timeline-item">🎓 <b>Último año del colegio:</b> Nos conocimos y comenzamos a compartir actividades juntos.</div>
+          <div class="timeline-item">🎼 <b>Harmonía:</b> Con el tiempo, esa amistad se convirtió en una constante importante en la vida.</div>
+          <div class="timeline-item">🥂 <b>Hoy:</b> Años de momentos compartidos y una hermandad intacta.</div>
         </div>
       </div>
       <div>
-        <button class="btn-retro" onclick="goToCard('cardFinal')">CONTINUAR ✨</button>
+        <button class="btn-gold" onclick="goToCard('cardFinal')">CONTINUAR 🥂</button>
       </div>
     </div>
 
     <div class="card" id="cardFinal">
-      <div class="deco-flower-top">👑</div>
-      <div style="margin-top: 20px;">
-        <p class="title-retro-caps" style="font-size: 18px;">UNA PREGUNTA IMPORTANTE</p>
+      <div class="deco-music-top">🥂</div>
+      <div style="margin-top: 15px;">
+        <p class="title-cinzel" style="font-size: 16px;">UNA PREGUNTA IMPORTANTE</p>
         
-        <p class="text-retro" style="margin-top: 15px; font-size: 13px; line-height: 1.6;">
-          Hermano, después de tantos años, risas y grandes momentos compartidos...
+        <p class="text-elegant" style="margin-top: 15px;">
+          Jason, hemos compartido momentos inolvidables desde el colegio y has sido un hermano indispensable en mi vida.
         </p>
 
-        <h2 class="title-script-small" style="margin-top: 15px;">¿Aceptas ser mi padrino de boda? 🍻</h2>
+        <h2 class="subtitle-garamond" style="margin-top: 15px; font-size: 26px;">¿Aceptas ser mi padrino de boda?</h2>
 
         <div class="final-btns">
-          <button class="btn-retro" id="yesBtn" onclick="acceptProposal()">SÍ, ACEPTO</button>
-          <button class="btn-retro" id="noBtn" onmouseover="escapeNoBtn()" onclick="escapeNoBtn()">NO</button>
+          <button class="btn-gold" id="yesBtn" onclick="acceptProposal()">SÍ, ACEPTO</button>
+          <button class="btn-gold" id="noBtn" onmouseover="escapeNoBtn()" onclick="escapeNoBtn()">NO</button>
         </div>
         <p id="noWarning" class="footer-note" style="height: 15px; margin-top: 10px;"></p>
       </div>
-      <div class="deco-flower-bottom">🔥</div>
+      <div class="deco-music-bottom">💍</div>
     </div>
 
     <div class="card" id="cardAccepted">
       <div style="margin-top: 30px;">
-        <div style="font-size: 55px; margin-bottom: 10px;">🍻👑🔥</div>
-        <p class="title-retro-caps" style="font-size: 20px;">¡SABÍA QUE PODÍA CONTAR CONTIGO!</p>
-        <p class="text-retro" style="margin-top: 15px; font-size: 14px;">
-          ¡Gracias por tu amistad de años y por estar a mi lado en este gran paso!
+        <div style="font-size: 50px; margin-bottom: 10px;">🥂🎻✨</div>
+        <p class="title-cinzel" style="font-size: 18px;">¡HONRADO DE CONTAR CONTIGO!</p>
+        <p class="text-elegant" style="margin-top: 15px;">
+          ¡Gracias por acompañarme desde el colegio y por estar a mi lado en este día tan significativo!
         </p>
-        <p class="title-script-small" style="margin-top: 15px; font-size: 20px;">¡Se viene un bodón! 🎉</p>
+        <p class="subtitle-garamond" style="margin-top: 15px; font-size: 24px;">¡Haremos una gran celebración!</p>
       </div>
       <div>
-        <button class="btn-retro" onclick="confirmWhatsApp()">Confirmar por WhatsApp 📱</button>
+        <button class="btn-gold" onclick="confirmWhatsApp()">CONFIRMAR POR WHATSAPP 📱</button>
       </div>
     </div>
 
@@ -446,28 +445,18 @@
     let nostalgiaStep = 0;
     const nostalgiaData = [
       {
-        title: "Capítulo 1: El Inicio",
-        text: "Nos conocimos hace ya bastante tiempo. Sin saberlo, estábamos iniciando una amistad para toda la vida.",
+        title: "El Primer Compás",
+        text: "Nos conocimos en el último año del colegio. Poco a poco empezamos a hacer más actividades juntos y a construir una gran amistad.",
         imgSrc: "Imagen1.jpeg"
       },
       {
-        title: "Capítulo 2: Desveladas y Risas 🎮",
-        text: "Horas de charlas, buenos momentos, juegos y anécdotas que hasta el día de hoy nos hacen reír.",
-        icon: "🍻"
+        title: "Compartiendo la Vida",
+        text: "Desde aquellas primeras vivencias en el colegio, hemos mantenido la lealtad y los buenos momentos a lo largo del tiempo.",
+        icon: "🎼"
       },
       {
-        title: "Capítulo 3: Hermandad 🔥",
-        text: "Un buen amigo está en los buenos momentos, pero un hermano de verdad permanece en todos. ¡Gracias por estar siempre firme!",
-        icon: "⚡"
-      },
-      {
-        title: "Capítulo 4: Recuerdos 📷",
-        text: "Cada foto guardada cuenta una gran historia de nuestra amistad.",
-        imgSrc: "imagen2.jpeg"
-      },
-      {
-        title: "El Siguiente Nivel...",
-        text: "Ahora se viene uno de los momentos más importantes de mi vida... y quiero que formes parte de él.",
+        title: "Un Gran Paso",
+        text: "Y ahora que se acerca uno de los eventos más trascendentales, quiero que me acompañes en un rol muy especial.",
         finalStep: true
       }
     ];
@@ -483,11 +472,11 @@
       const content = document.getElementById('nostalgiaContent');
 
       let html = `<div style="margin-top:15px;">
-        <p class="title-retro-caps" style="font-size:16px;">${data.title}</p>`;
+        <p class="title-cinzel" style="font-size:16px;">${data.title}</p>`;
 
-      if (data.icon) html += `<div style="font-size:35px; margin:10px 0;">${data.icon}</div>`;
+      if (data.icon) html += `<div style="font-size:35px; margin:15px 0;">${data.icon}</div>`;
       
-      html += `<p class="text-retro" style="margin-top:10px; font-size:13px; text-transform:none;">${data.text}</p>`;
+      html += `<p class="text-elegant" style="margin-top:10px;">${data.text}</p>`;
 
       if (data.imgSrc) {
         html += `
@@ -502,9 +491,9 @@
 
       const btns = document.getElementById('nostalgiaBtns');
       if (data.finalStep) {
-        btns.innerHTML = `<button class="btn-retro" onclick="goToCard('cardFinal')">CONTINUAR ⚡</button>`;
+        btns.innerHTML = `<button class="btn-gold" onclick="goToCard('cardFinal')">CONTINUAR 🥂</button>`;
       } else {
-        btns.innerHTML = `<button class="btn-retro" onclick="nextNostalgiaStep()">SIGUIENTE →</button>`;
+        btns.innerHTML = `<button class="btn-gold" onclick="nextNostalgiaStep()">SIGUIENTE →</button>`;
       }
     }
 
@@ -515,188 +504,90 @@
       }
     }
 
-    /* MODO 2: QUIZ */
-    let quizStep = 0;
-    const quizQuestions = [
-      {
-        q: "¿Cuál es el ingrediente principal de nuestra amistad?",
-        options: ["Lealtad y cervezas", "Paciencia infinita", "Jugar FIFA/Videojuegos"],
-        correct: 0
-      },
-      {
-        q: "¿Qué pasa si nos juntamos a hablar un rato?",
-        options: ["Nos dormimos temprano", "Se nos pasa el tiempo volando", "Terminamos debatiendo de la vida"],
-        correct: 1
-      },
-      {
-        q: "¿Quién tiene la responsabilidad de ser el padrino oficial?",
-        options: ["Jason, sin duda", "Alguien más", "No sé"],
-        correct: 0
-      }
-    ];
+    /* MODO 2: JUEGO WORDLE (PALABRA SECRETA: SANDIA) */
+    const secretWord = "SANDIA";
+    let currentAttempt = 0;
+    const maxAttempts = 5;
 
-    function startQuiz() {
-      quizStep = 0;
-      renderQuiz();
-      goToCard('cardQuiz');
+    function startWordle() {
+      goToCard('cardWordle');
+      currentAttempt = 0;
+      document.getElementById('wordleStatus').innerText = "";
+      document.getElementById('wordleInput').value = "";
+      
+      const board = document.getElementById('wordleBoard');
+      board.innerHTML = "";
+      
+      for (let r = 0; r < maxAttempts; r++) {
+        const row = document.createElement('div');
+        row.className = 'wordle-row';
+        for (let c = 0; c < 6; c++) {
+          const tile = document.createElement('div');
+          tile.className = 'wordle-tile';
+          tile.id = `tile-${r}-${c}`;
+          row.appendChild(tile);
+        }
+        board.appendChild(row);
+      }
     }
 
-    function renderQuiz() {
-      const container = document.getElementById('quizContent');
-      if (quizStep < quizQuestions.length) {
-        const q = quizQuestions[quizStep];
-        let html = `
-          <div style="margin-top:20px;">
-            <p class="title-retro-caps">PREGUNTA ${quizStep + 1} DE 3</p>
-            <p class="text-retro" style="margin-top:15px; font-size:14px;">${q.q}</p>
-            <div class="btn-group" style="margin-top:20px;">
-        `;
-        q.options.forEach((opt, idx) => {
-          html += `<button class="btn-retro" style="background:#202232;" onclick="answerQuiz(${idx})">${opt}</button>`;
-        });
-        html += `</div></div>`;
-        container.innerHTML = html;
-      } else {
-        container.innerHTML = `
-          <div style="margin-top:30px;">
-            <div style="font-size:45px;">🏆</div>
-            <p class="title-retro-caps" style="font-size:20px; margin-top:10px;">¡PUNTAJE PERFECTO!</p>
-            <p class="text-retro" style="margin-top:10px; font-size:13px;">Nivel de hermandad desbloqueado al 100% 🔥</p>
-            <div class="btn-group" style="margin-top:30px;">
-              <button class="btn-retro" onclick="goToCard('cardFinal')">CONTINUAR ✨</button>
-            </div>
-          </div>
-        `;
+    function submitWordleGuess() {
+      const input = document.getElementById('wordleInput');
+      const guess = input.value.toUpperCase().trim();
+
+      if (guess.length !== 6) {
+        document.getElementById('wordleStatus').innerText = "Escribe una palabra de 6 letras";
+        return;
+      }
+
+      if (currentAttempt >= maxAttempts) {
+        document.getElementById('wordleStatus').innerText = "Intentos agotados";
+        return;
+      }
+
+      for (let i = 0; i < 6; i++) {
+        const tile = document.getElementById(`tile-${currentAttempt}-${i}`);
+        const letter = guess[i];
+        tile.innerText = letter;
+
+        if (letter === secretWord[i]) {
+          tile.classList.add('correct');
+        } else if (secretWord.includes(letter)) {
+          tile.classList.add('present');
+        } else {
+          tile.classList.add('absent');
+        }
+      }
+
+      if (guess === secretWord) {
+        document.getElementById('wordleStatus').innerText = "✨ ¡CORRECTO! DESBLOQUEADO ✨";
         confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
-      }
-    }
-
-    function answerQuiz(index) {
-      if (index === quizQuestions[quizStep].correct) {
-        quizStep++;
-        renderQuiz();
+        setTimeout(() => {
+          goToCard('cardFinal');
+        }, 1200);
       } else {
-        alert("¡Esa no es, bro! Piénsalo bien 😂");
-      }
-    }
-
-    /* MODO 3: SNAKE GAME */
-    let canvas, ctx;
-    let snake = [];
-    let food = {};
-    let direction = 'RIGHT';
-    let nextDirection = 'RIGHT';
-    let applesEaten = 0;
-    let gameInterval;
-    const gridSize = 10;
-
-    function startSnake() {
-      goToCard('cardSnake');
-      setTimeout(() => {
-        canvas = document.getElementById('snakeCanvas');
-        ctx = canvas.getContext('2d');
-        snake = [{x: 5, y: 5}, {x: 4, y: 5}, {x: 3, y: 5}];
-        direction = 'RIGHT';
-        nextDirection = 'RIGHT';
-        applesEaten = 0;
-        document.getElementById('snakeStatus').innerText = "Pizzas: 0/3";
-        spawnFood();
-
-        if (gameInterval) clearInterval(gameInterval);
-        gameInterval = setInterval(gameLoop, 130);
-      }, 300);
-    }
-
-    function changeSnakeDir(dir) {
-      if (dir === 'UP' && direction !== 'DOWN') nextDirection = 'UP';
-      if (dir === 'DOWN' && direction !== 'UP') nextDirection = 'DOWN';
-      if (dir === 'LEFT' && direction !== 'RIGHT') nextDirection = 'LEFT';
-      if (dir === 'RIGHT' && direction !== 'LEFT') nextDirection = 'RIGHT';
-    }
-
-    function spawnFood() {
-      food = {
-        x: Math.floor(Math.random() * (canvas.width / gridSize)),
-        y: Math.floor(Math.random() * (canvas.height / gridSize))
-      };
-    }
-
-    function gameLoop() {
-      direction = nextDirection;
-      const head = { ...snake[0] };
-
-      if (direction === 'UP') head.y--;
-      if (direction === 'DOWN') head.y++;
-      if (direction === 'LEFT') head.x--;
-      if (direction === 'RIGHT') head.x++;
-
-      const maxX = canvas.width / gridSize;
-      const maxY = canvas.height / gridSize;
-      if (head.x < 0) head.x = maxX - 1;
-      if (head.x >= maxX) head.x = 0;
-      if (head.y < 0) head.y = maxY - 1;
-      if (head.y >= maxY) head.y = 0;
-
-      for (let segment of snake) {
-        if (head.x === segment.x && head.y === segment.y) {
-          snake = [{x: 5, y: 5}, {x: 4, y: 5}, {x: 3, y: 5}];
-          direction = 'RIGHT';
-          nextDirection = 'RIGHT';
-          return;
+        currentAttempt++;
+        input.value = "";
+        if (currentAttempt < maxAttempts) {
+          document.getElementById('wordleStatus').innerText = `Intento ${currentAttempt + 1} de ${maxAttempts}`;
+        } else {
+          document.getElementById('wordleStatus').innerText = "¡Casi! Puedes intentarlo de nuevo.";
         }
       }
-
-      snake.unshift(head);
-
-      if (head.x === food.x && head.y === food.y) {
-        applesEaten++;
-        document.getElementById('snakeStatus').innerText = `Pizzas: ${applesEaten}/3`;
-        if (applesEaten >= 3) {
-          clearInterval(gameInterval);
-          document.getElementById('snakeStatus').innerText = "⚡ ¡NIVEL COMPLETADO! ⚡";
-          confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
-          setTimeout(() => {
-            goToCard('cardFinal');
-          }, 1000);
-          return;
-        }
-        spawnFood();
-      } else {
-        snake.pop();
-      }
-
-      drawGame();
     }
 
-    function drawGame() {
-      ctx.fillStyle = '#0d0e15';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Comida (Pizza/Punto Amarillo)
-      ctx.fillStyle = '#ffcc00';
-      ctx.beginPath();
-      ctx.arc((food.x * gridSize) + 5, (food.y * gridSize) + 5, 4, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Serpiente
-      snake.forEach((seg, i) => {
-        ctx.fillStyle = i === 0 ? '#00f3ff' : '#7000ff';
-        ctx.fillRect(seg.x * gridSize + 1, seg.y * gridSize + 1, gridSize - 2, gridSize - 2);
-      });
-    }
-
-    /* MODO 4: TIMELINE */
+    /* MODO 3: TIMELINE */
     function startTimeline() {
       goToCard('cardTimeline');
     }
 
-    /* BOTÓN TRAVIESO NO */
+    /* BOTÓN ESCAPISTA NO */
     const noFrases = [
       "¿Seguro, mae? 🤨",
       "Piénsalo bien...",
-      "Opción deshabilitada.",
-      "Error 404: esa respuesta no aplica.",
-      "¡No te hagas rogado! 😂"
+      "Ese botón está fuera de servicio.",
+      "Opción no disponible 😉",
+      "¡Esa respuesta no aplica!"
     ];
     let fraseIdx = 0;
 
@@ -724,7 +615,7 @@
     }
 
     function confirmWhatsApp() {
-      const message = encodeURIComponent("¡Mae Jason! Vi la web. ¡Obvio que SÍ acepto ser tu padrino de boda! 🍻🔥👑");
+      const message = encodeURIComponent("¡Mae! Vi la invitación en la web. ¡Obvio que SÍ acepto ser tu padrino de boda! 🥂🎻✨");
       window.open(`https://wa.me/?text=${message}`, '_blank');
     }
   </script>
