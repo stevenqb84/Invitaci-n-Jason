@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>¡Hola, Jason! ⚡</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Paytone+One&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0f1016;
+      --card-bg: #181925;
+      --cyan-neon: #00f3ff;
+      --yellow-neon: #ffcc00;
+      --purple-btn: #7000ff;
+      --purple-btn-hover: #8c28ff;
+      --dark-border: #050508;
+      --light-text: #e2e8f0;
+      --subtext-yellow: #ffcc00;
+      --red-accent: #ff3366;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at center, #1a1c29 0%, #08090d 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      overflow: hidden;
+      position: relative;
+      font-family: 'Fredoka', 'Paytone One', sans-serif;
+      color: var(--light-text);
+    }
+
+    /* Escenario MÓVIL con Estilo Arcade Retro */
+    .scene {
+      width: 100%;
+      max-width: 380px;
+      height: 620px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25), 0 0 10px rgba(112, 0, 255, 0.4);
+      border: 3px solid var(--cyan-neon);
+      background-color: var(--card-bg);
+      background-image: 
+        linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    /* Tarjetas que se deslizan */
+    .card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(100%);
+      z-index: 1;
+      overflow-y: auto;
+      text-align: center;
+    }
+
+    .card.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+      z-index: 2;
+    }
+
+    .card.exit {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-100%);
+      z-index: 1;
+    }
+
+    /* Estilos de Tipografías Arcade */
+    .title-retro-caps {
+      font-family: 'Paytone One', sans-serif;
+      color: var(--yellow-neon);
+      letter-spacing: 2px;
+      font-size: 18px;
+      text-transform: uppercase;
+      line-height: 1.3;
+      text-shadow: 2px 2px 0px #000;
+    }
+
+    .title-script {
+      font-family: 'Press Start 2P', cursive;
+      color: var(--cyan-neon);
+      font-size: 26px;
+      text-shadow: 3px 3px 0px #7000ff, -2px -2px 0px #000;
+      margin: 12px 0;
+      line-height: 1.3;
+    }
+
+    .title-script-small {
+      font-family: 'Paytone One', sans-serif;
+      color: var(--cyan-neon);
+      font-size: 24px;
+      text-shadow: 2px 2px 0px #000;
+    }
+
+    p.text-retro {
+      font-family: 'Fredoka', sans-serif;
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Botones Neón Retro con Sombra Fuerte */
+    .btn-retro {
+      background-color: var(--purple-btn);
+      color: #fff;
+      font-family: 'Paytone One', sans-serif;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 14px 18px;
+      border: 2px solid var(--cyan-neon);
+      border-radius: 8px;
+      box-shadow: 4px 4px 0px var(--dark-border), 0 0 10px rgba(0, 243, 255, 0.3);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      width: 100%;
+      margin-bottom: 6px;
+    }
+
+    .btn-retro:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px var(--dark-border);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    /* Marcos de Foto */
+    .img-frame {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 3px solid var(--cyan-neon);
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0f1016;
+    }
+
+    .img-frame img {
+      width: 100%;
+      height: auto;
+      max-height: 240px;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Minijuego Snake Estilo Retro Arcade */
+    .snake-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    #snakeCanvas {
+      background-color: #0d0e15;
+      border: 3px solid var(--cyan-neon);
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+      touch-action: none;
+    }
+
+    .control-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .arrow-btn {
+      width: 44px;
+      height: 44px;
+      background: var(--purple-btn);
+      border: 2px solid var(--cyan-neon);
+      color: #fff;
+      border-radius: 8px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      box-shadow: 2px 2px 0px #000;
+      user-select: none;
+    }
+
+    .arrow-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 0px 0px 0px #000;
+    }
+
+    /* Elementos Decorativos Flotantes */
+    .deco-flower-top {
+      position: absolute;
+      top: -5px; right: -5px;
+      font-size: 45px;
+      pointer-events: none;
+      filter: drop-shadow(0 0 5px rgba(255, 204, 0, 0.6));
+    }
+
+    .deco-flower-bottom {
+      position: absolute;
+      bottom: -5px; left: -5px;
+      font-size: 45px;
+      pointer-events: none;
+      filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.6));
+    }
+
+    .timeline-item {
+      background: #202232;
+      border: 2px solid var(--cyan-neon);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 13px;
+      text-align: left;
+      color: #e2e8f0;
+      font-family: 'Fredoka', sans-serif;
+      margin-bottom: 8px;
+    }
+
+    /* Pantalla Final Botones */
+    .final-btns {
+      position: relative;
+      height: 110px;
+      margin-top: 20px;
+    }
+
+    #noBtn {
+      position: absolute;
+      width: 46%;
+      right: 0;
+      top: 0;
+      background: #334155;
+      border-color: #64748b;
+    }
+
+    #yesBtn {
+      position: absolute;
+      width: 46%;
+      left: 0;
+      top: 0;
+      background: #00c853;
+      border-color: #b9f6ca;
+    }
+
+    .footer-note {
+      font-size: 11px;
+      color: #94a3b8;
+      font-family: 'Fredoka', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scene">
+
+    <div class="card active" id="cardHome">
+      <div class="deco-flower-top">⚡</div>
+      <div style="margin-top: 15px;">
+        <p class="title-retro-caps" style="font-size: 20px;">¡HOLA, JASON!</p>
+        <p class="title-retro-caps" style="margin-top: 15px; font-size: 14px;">TU AMISTAD ES UNA</p>
+        
+        <h1 class="title-script">LEYENDA</h1>
+        
+        <p class="title-retro-caps" style="font-size: 14px; margin-bottom: 10px;">DE HERMANDAD 🍻</p>
+        
+        <div class="img-frame">
+          <img src="Imagen1.jpeg" alt="Foto juntos" onerror="this.onerror=null; this.src='Imagen1.jpg';">
+        </div>
+      </div>
+
+      <div>
+        <button class="btn-retro" onclick="goToCard('cardMenu')">PRESIONA START 🎮</button>
+      </div>
+      <div class="deco-flower-bottom">🎮</div>
+    </div>
+
+    <div class="card" id="cardMenu">
+      <div style="margin-top: 20px;">
+        <p class="title-retro-caps" style="font-size: 20px;">MODO DE JUEGO 🕹️</p>
+        <p class="title-retro-caps" style="font-size: 13px; margin-top: 6px;">SELECCIONA UNA OPCIÓN</p>
+      </div>
+
+      <div class="btn-group" style="margin-top: 20px;">
+        <button class="btn-retro" onclick="startNostalgia()">MODO NOSTALGIA 📜</button>
+        <button class="btn-retro" onclick="startQuiz()">MODO QUIZ 🧩</button>
+        <button class="btn-retro" onclick="startSnake()">MODO GAMER 🐍</button>
+        <button class="btn-retro" onclick="startTimeline()">LÍNEA DE TIEMPO ⏳</button>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        <p class="footer-note">(Puedes probar los otros modos después)</p>
+      </div>
+      <div class="deco-flower-bottom">🔥</div>
+    </div>
+
+    <div class="card" id="cardNostalgia">
+      <div id="nostalgiaContent"></div>
+      <div>
+        <div class="btn-group" id="nostalgiaBtns">
+          <button class="btn-retro" onclick="nextNostalgiaStep()">SIGUIENTE →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="cardQuiz">
+      <div id="quizContent"></div>
+    </div>
+
+    <div class="card" id="cardSnake">
+      <div>
+        <p class="title-retro-caps" style="font-size: 18px;">MODO GAMER 🎮</p>
+        <p class="text-retro" style="font-size: 12px; margin-top: 4px;">Atrapa 3 pizzas 🍕 para desbloquear el nivel</p>
+        
+        <div class="snake-container">
+          <canvas id="snakeCanvas" width="220" height="170"></canvas>
+          
+          <div class="snake-controls">
+            <div class="arrow-btn" onclick="changeSnakeDir('UP')">▲</div>
+            <div class="control-row">
+              <div class="arrow-btn" onclick="changeSnakeDir('LEFT')">◄</div>
+              <div class="arrow-btn" onclick="changeSnakeDir('DOWN')">▼</div>
+              <div class="arrow-btn" onclick="changeSnakeDir('RIGHT')">►</div>
+            </div>
+          </div>
+        </div>
+        <p id="snakeStatus" class="title-retro-caps" style="font-size: 12px; margin-top: 6px;">Pizzas: 0/3</p>
+      </div>
+      <div>
+        <button class="btn-retro" style="font-size: 11px; padding: 8px;" onclick="goToCard('cardMenu')">← Menú Principal</button>
+      </div>
+    </div>
+
+    <div class="card" id="cardTimeline">
+      <div>
+        <p class="title-retro-caps" style="font-size: 18px; margin-bottom: 12px;">HISTORIA DE HERMANDAD 📖</p>
+        
+        <div class="timeline">
+          <div class="timeline-item">📍 <b>Inicios:</b> Nos conocimos y empezó una gran amistad.</div>
+          <div class="timeline-item">⚽ <b>Aventuras:</b> Salidas, partidos y desveladas inolvidables.</div>
+          <div class="timeline-item">🍻 <b>Las buenas y las malas:</b> Siempre firmes en cualquier momento.</div>
+          <div class="timeline-item">👑 <b>Hoy:</b> Años de amistad y anécdotas que valen oro.</div>
+        </div>
+      </div>
+      <div>
+        <button class="btn-retro" onclick="goToCard('cardFinal')">CONTINUAR ✨</button>
+      </div>
+    </div>
+
+    <div class="card" id="cardFinal">
+      <div class="deco-flower-top">👑</div>
+      <div style="margin-top: 20px;">
+        <p class="title-retro-caps" style="font-size: 18px;">UNA PREGUNTA IMPORTANTE</p>
+        
+        <p class="text-retro" style="margin-top: 15px; font-size: 13px; line-height: 1.6;">
+          Hermano, después de tantos años, risas y grandes momentos compartidos...
+        </p>
+
+        <h2 class="title-script-small" style="margin-top: 15px;">¿Aceptas ser mi padrino de boda? 🍻</h2>
+
+        <div class="final-btns">
+          <button class="btn-retro" id="yesBtn" onclick="acceptProposal()">SÍ, ACEPTO</button>
+          <button class="btn-retro" id="noBtn" onmouseover="escapeNoBtn()" onclick="escapeNoBtn()">NO</button>
+        </div>
+        <p id="noWarning" class="footer-note" style="height: 15px; margin-top: 10px;"></p>
+      </div>
+      <div class="deco-flower-bottom">🔥</div>
+    </div>
+
+    <div class="card" id="cardAccepted">
+      <div style="margin-top: 30px;">
+        <div style="font-size: 55px; margin-bottom: 10px;">🍻👑🔥</div>
+        <p class="title-retro-caps" style="font-size: 20px;">¡SABÍA QUE PODÍA CONTAR CONTIGO!</p>
+        <p class="text-retro" style="margin-top: 15px; font-size: 14px;">
+          ¡Gracias por tu amistad de años y por estar a mi lado en este gran paso!
+        </p>
+        <p class="title-script-small" style="margin-top: 15px; font-size: 20px;">¡Se viene un bodón! 🎉</p>
+      </div>
+      <div>
+        <button class="btn-retro" onclick="confirmWhatsApp()">Confirmar por WhatsApp 📱</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let activeCardId = 'cardHome';
+
+    function goToCard(targetId) {
+      const current = document.getElementById(activeCardId);
+      const next = document.getElementById(targetId);
+
+      if (current) {
+        current.classList.remove('active');
+        current.classList.add('exit');
+      }
+
+      if (next) {
+        next.classList.remove('exit');
+        next.classList.add('active');
+      }
+
+      activeCardId = targetId;
+    }
+
+    /* MODO 1: NOSTALGIA */
+    let nostalgiaStep = 0;
+    const nostalgiaData = [
+      {
+        title: "Capítulo 1: El Inicio",
+        text: "Nos conocimos hace ya bastante tiempo. Sin saberlo, estábamos iniciando una amistad para toda la vida.",
+        imgSrc: "Imagen1.jpeg"
+      },
+      {
+        title: "Capítulo 2: Desveladas y Risas 🎮",
+        text: "Horas de charlas, buenos momentos, juegos y anécdotas que hasta el día de hoy nos hacen reír.",
+        icon: "🍻"
+      },
+      {
+        title: "Capítulo 3: Hermandad 🔥",
+        text: "Un buen amigo está en los buenos momentos, pero un hermano de verdad permanece en todos. ¡Gracias por estar siempre firme!",
+        icon: "⚡"
+      },
+      {
+        title: "Capítulo 4: Recuerdos 📷",
+        text: "Cada foto guardada cuenta una gran historia de nuestra amistad.",
+        imgSrc: "imagen2.jpeg"
+      },
+      {
+        title: "El Siguiente Nivel...",
+        text: "Ahora se viene uno de los momentos más importantes de mi vida... y quiero que formes parte de él.",
+        finalStep: true
+      }
+    ];
+
+    function startNostalgia() {
+      nostalgiaStep = 0;
+      renderNostalgia();
+      goToCard('cardNostalgia');
+    }
+
+    function renderNostalgia() {
+      const data = nostalgiaData[nostalgiaStep];
+      const content = document.getElementById('nostalgiaContent');
+
+      let html = `<div style="margin-top:15px;">
+        <p class="title-retro-caps" style="font-size:16px;">${data.title}</p>`;
+
+      if (data.icon) html += `<div style="font-size:35px; margin:10px 0;">${data.icon}</div>`;
+      
+      html += `<p class="text-retro" style="margin-top:10px; font-size:13px; text-transform:none;">${data.text}</p>`;
+
+      if (data.imgSrc) {
+        html += `
+          <div class="img-frame">
+            <img src="${data.imgSrc}" alt="Recuerdo" onerror="this.onerror=null; this.src='${data.imgSrc.replace('.jpeg', '.jpg')}';">
+          </div>
+        `;
+      }
+
+      html += `</div>`;
+      content.innerHTML = html;
+
+      const btns = document.getElementById('nostalgiaBtns');
+      if (data.finalStep) {
+        btns.innerHTML = `<button class="btn-retro" onclick="goToCard('cardFinal')">CONTINUAR ⚡</button>`;
+      } else {
+        btns.innerHTML = `<button class="btn-retro" onclick="nextNostalgiaStep()">SIGUIENTE →</button>`;
+      }
+    }
+
+    function nextNostalgiaStep() {
+      if (nostalgiaStep < nostalgiaData.length - 1) {
+        nostalgiaStep++;
+        renderNostalgia();
+      }
+    }
+
+    /* MODO 2: QUIZ */
+    let quizStep = 0;
+    const quizQuestions = [
+      {
+        q: "¿Cuál es el ingrediente principal de nuestra amistad?",
+        options: ["Lealtad y cervezas", "Paciencia infinita", "Jugar FIFA/Videojuegos"],
+        correct: 0
+      },
+      {
+        q: "¿Qué pasa si nos juntamos a hablar un rato?",
+        options: ["Nos dormimos temprano", "Se nos pasa el tiempo volando", "Terminamos debatiendo de la vida"],
+        correct: 1
+      },
+      {
+        q: "¿Quién tiene la responsabilidad de ser el padrino oficial?",
+        options: ["Jason, sin duda", "Alguien más", "No sé"],
+        correct: 0
+      }
+    ];
+
+    function startQuiz() {
+      quizStep = 0;
+      renderQuiz();
+      goToCard('cardQuiz');
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContent');
+      if (quizStep < quizQuestions.length) {
+        const q = quizQuestions[quizStep];
+        let html = `
+          <div style="margin-top:20px;">
+            <p class="title-retro-caps">PREGUNTA ${quizStep + 1} DE 3</p>
+            <p class="text-retro" style="margin-top:15px; font-size:14px;">${q.q}</p>
+            <div class="btn-group" style="margin-top:20px;">
+        `;
+        q.options.forEach((opt, idx) => {
+          html += `<button class="btn-retro" style="background:#202232;" onclick="answerQuiz(${idx})">${opt}</button>`;
+        });
+        html += `</div></div>`;
+        container.innerHTML = html;
+      } else {
+        container.innerHTML = `
+          <div style="margin-top:30px;">
+            <div style="font-size:45px;">🏆</div>
+            <p class="title-retro-caps" style="font-size:20px; margin-top:10px;">¡PUNTAJE PERFECTO!</p>
+            <p class="text-retro" style="margin-top:10px; font-size:13px;">Nivel de hermandad desbloqueado al 100% 🔥</p>
+            <div class="btn-group" style="margin-top:30px;">
+              <button class="btn-retro" onclick="goToCard('cardFinal')">CONTINUAR ✨</button>
+            </div>
+          </div>
+        `;
+        confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+      }
+    }
+
+    function answerQuiz(index) {
+      if (index === quizQuestions[quizStep].correct) {
+        quizStep++;
+        renderQuiz();
+      } else {
+        alert("¡Esa no es, bro! Piénsalo bien 😂");
+      }
+    }
+
+    /* MODO 3: SNAKE GAME */
+    let canvas, ctx;
+    let snake = [];
+    let food = {};
+    let direction = 'RIGHT';
+    let nextDirection = 'RIGHT';
+    let applesEaten = 0;
+    let gameInterval;
+    const gridSize = 10;
+
+    function startSnake() {
+      goToCard('cardSnake');
+      setTimeout(() => {
+        canvas = document.getElementById('snakeCanvas');
+        ctx = canvas.getContext('2d');
+        snake = [{x: 5, y: 5}, {x: 4, y: 5}, {x: 3, y: 5}];
+        direction = 'RIGHT';
+        nextDirection = 'RIGHT';
+        applesEaten = 0;
+        document.getElementById('snakeStatus').innerText = "Pizzas: 0/3";
+        spawnFood();
+
+        if (gameInterval) clearInterval(gameInterval);
+        gameInterval = setInterval(gameLoop, 130);
+      }, 300);
+    }
+
+    function changeSnakeDir(dir) {
+      if (dir === 'UP' && direction !== 'DOWN') nextDirection = 'UP';
+      if (dir === 'DOWN' && direction !== 'UP') nextDirection = 'DOWN';
+      if (dir === 'LEFT' && direction !== 'RIGHT') nextDirection = 'LEFT';
+      if (dir === 'RIGHT' && direction !== 'LEFT') nextDirection = 'RIGHT';
+    }
+
+    function spawnFood() {
+      food = {
+        x: Math.floor(Math.random() * (canvas.width / gridSize)),
+        y: Math.floor(Math.random() * (canvas.height / gridSize))
+      };
+    }
+
+    function gameLoop() {
+      direction = nextDirection;
+      const head = { ...snake[0] };
+
+      if (direction === 'UP') head.y--;
+      if (direction === 'DOWN') head.y++;
+      if (direction === 'LEFT') head.x--;
+      if (direction === 'RIGHT') head.x++;
+
+      const maxX = canvas.width / gridSize;
+      const maxY = canvas.height / gridSize;
+      if (head.x < 0) head.x = maxX - 1;
+      if (head.x >= maxX) head.x = 0;
+      if (head.y < 0) head.y = maxY - 1;
+      if (head.y >= maxY) head.y = 0;
+
+      for (let segment of snake) {
+        if (head.x === segment.x && head.y === segment.y) {
+          snake = [{x: 5, y: 5}, {x: 4, y: 5}, {x: 3, y: 5}];
+          direction = 'RIGHT';
+          nextDirection = 'RIGHT';
+          return;
+        }
+      }
+
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        applesEaten++;
+        document.getElementById('snakeStatus').innerText = `Pizzas: ${applesEaten}/3`;
+        if (applesEaten >= 3) {
+          clearInterval(gameInterval);
+          document.getElementById('snakeStatus').innerText = "⚡ ¡NIVEL COMPLETADO! ⚡";
+          confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+          setTimeout(() => {
+            goToCard('cardFinal');
+          }, 1000);
+          return;
+        }
+        spawnFood();
+      } else {
+        snake.pop();
+      }
+
+      drawGame();
+    }
+
+    function drawGame() {
+      ctx.fillStyle = '#0d0e15';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Comida (Pizza/Punto Amarillo)
+      ctx.fillStyle = '#ffcc00';
+      ctx.beginPath();
+      ctx.arc((food.x * gridSize) + 5, (food.y * gridSize) + 5, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Serpiente
+      snake.forEach((seg, i) => {
+        ctx.fillStyle = i === 0 ? '#00f3ff' : '#7000ff';
+        ctx.fillRect(seg.x * gridSize + 1, seg.y * gridSize + 1, gridSize - 2, gridSize - 2);
+      });
+    }
+
+    /* MODO 4: TIMELINE */
+    function startTimeline() {
+      goToCard('cardTimeline');
+    }
+
+    /* BOTÓN TRAVIESO NO */
+    const noFrases = [
+      "¿Seguro, mae? 🤨",
+      "Piénsalo bien...",
+      "Opción deshabilitada.",
+      "Error 404: esa respuesta no aplica.",
+      "¡No te hagas rogado! 😂"
+    ];
+    let fraseIdx = 0;
+
+    function escapeNoBtn() {
+      const btn = document.getElementById('noBtn');
+      const warning = document.getElementById('noWarning');
+
+      const randomX = (Math.random() - 0.5) * 120;
+      const randomY = (Math.random() - 0.5) * 80;
+
+      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+      warning.innerText = noFrases[fraseIdx % noFrases.length];
+      fraseIdx++;
+    }
+
+    /* ACEPTAR */
+    function acceptProposal() {
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+      goToCard('cardAccepted');
+    }
+
+    function confirmWhatsApp() {
+      const message = encodeURIComponent("¡Mae Jason! Vi la web. ¡Obvio que SÍ acepto ser tu padrino de boda! 🍻🔥👑");
+      window.open(`https://wa.me/?text=${message}`, '_blank');
+    }
+  </script>
+</body>
+</html>
