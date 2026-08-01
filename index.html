@@ -565,11 +565,11 @@
         <div class="fake-card-form">
           <div>
             <label>NOMBRE EN LA TARJETA</label>
-            <input type="text" class="fake-card-input" placeholder="Jason..." readonly>
+            <input type="text" class="fake-card-input" placeholder="" readonly>
           </div>
           <div>
             <label>NÚMERO DE TARJETA</label>
-            <input type="text" class="fake-card-input" placeholder="4532 •••• •••• 8899" readonly>
+            <input type="text" class="fake-card-input" placeholder="•••• ••••" readonly>
           </div>
           <div class="fake-card-row">
             <div style="width: 50%;">
@@ -578,7 +578,7 @@
             </div>
             <div style="width: 50%;">
               <label>CVV / CCV</label>
-              <input type="text" class="fake-card-input" placeholder="123" readonly>
+              <input type="text" class="fake-card-input" placeholder="" readonly>
             </div>
           </div>
         </div>
@@ -590,9 +590,9 @@
 
       <div class="joke-overlay" id="jokeOverlay">
         <div style="font-size: 50px; margin-bottom: 10px;">🤣✨</div>
-        <p class="title-cinzel" style="font-size: 18px; color: var(--gold-light);">¡ES BROMA, MAE!</p>
+        <p class="title-cinzel" style="font-size: 18px; color: var(--gold-light);">¡ES BROMA!</p>
         <p class="text-elegant" style="margin-top: 10px; font-size: 13px;">
-          No hay ninguna cuota. ¡Solo quería ver tu cara! 😂<br><br>
+          No hay ninguna cuota. De momento 😂<br><br>
           ¡Lo único que ocupo es tu presencia como mi padrino!
         </p>
         <button class="btn-gold" style="margin-top: 20px;" onclick="finishJoke()">CONTINUAR 🥂</button>
@@ -602,7 +602,7 @@
     <div class="card" id="cardAccepted">
       <div style="margin-top: 25px;">
         <div style="font-size: 45px; margin-bottom: 10px;">🥂🎻✨</div>
-        <p class="title-cinzel" style="font-size: 17px;">¡HONRADO DE CONTAR CONTIGO!</p>
+        <p class="title-cinzel" style="font-size: 17px;">¡HONRADO DE CONTAR CON VOS!</p>
         <p class="text-elegant" style="margin-top: 12px;">
           ¡Gracias por acompañarme desde el colegio y por estar a mi lado en este día tan significativo!
         </p>
@@ -726,13 +726,13 @@
     const nostalgiaData = [
       {
         title: "El Primer Compás",
-        text: "Nos conocimos en el último año del colegio. Poco a poco empezamos a hacer más actividades juntos y a construir una gran amistad.",
+        text: "Nos conocimos en el último año del colegio. Quien iba a decir que solo iba a hacer falta un año para tener un amigo para toda la vida.",
         imgSrc: "imagen1.jpeg",
         fallback: "imagen1.jpg"
       },
       {
         title: "Compartiendo la Vida",
-        text: "Desde aquellas primeras vivencias en el colegio, hemos mantenido la lealtad y los buenos momentos a lo largo del tiempo.",
+        text: "Guardo todos los recuerdos que tenemos, el haber compartido un año de universidad juntos, todas las limpiezas que tuvimos que hacer, las salidas a hacer compras.",
         imgSrc: "imagen2.jpeg",
         fallback: "imagen2.jpg"
       },
@@ -862,8 +862,8 @@
 
     /* SECCIÓN 3: PREGUNTA & BROMA */
     const noFrases = [
-      "¿Seguro, mae? 🤨",
-      "Piénsalo bien...",
+      "¿Seguro? 🤨",
+      "Pensalo bien...",
       "Ese botón está fuera de servicio.",
       "Opción no disponible 😉",
       "¡Esa respuesta no aplica!"
@@ -903,8 +903,7 @@
     }
 
     function confirmWhatsApp() {
-      const message = encodeURIComponent("¡Mae! Vi la invitación en la web (¡y casi caigo con lo de la tarjeta! 😂). ¡Obvio que SÍ acepto ser tu padrino de boda! 🥂🎻✨");
-      window.open(`https://wa.me/?text=${message}`, '_blank');
+      // Sin redirección automática de mensaje
     }
 
     updateNavArrows();
