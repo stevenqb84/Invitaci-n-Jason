@@ -99,7 +99,7 @@
       background-size: 24px 24px;
     }
 
-    /* Flecha de Navegación Atrás (Solamente una) */
+    /* Flecha de Navegación Atrás */
     .nav-arrow {
       position: absolute;
       top: 50%;
@@ -370,6 +370,60 @@
       margin-bottom: 8px;
     }
 
+    /* Pantalla de Tarjeta Falsa (Broma) */
+    .fake-card-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    .fake-card-form label {
+      font-size: 10px;
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      letter-spacing: 1px;
+    }
+
+    .fake-card-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--gold-primary);
+      border-radius: 6px;
+      padding: 10px;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+    }
+
+    .fake-card-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Overlay / Alerta de "Es broma" */
+    .joke-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 17, 26, 0.95);
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      text-align: center;
+    }
+
+    .joke-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     /* Pantalla Final */
     .final-btns {
       position: relative;
@@ -406,6 +460,7 @@
     <source src="musica.mp3" type="audio/mpeg">
     <source src="musica.m4a" type="audio/mp4">
     <source src="musica.mp3.m4a" type="audio/mp4">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
   </audio>
 
   <div class="audio-bar">
@@ -520,6 +575,50 @@
       <div class="deco-music-bottom">💍</div>
     </div>
 
+    <div class="card" id="cardPaymentJoke" onclick="triggerJokeOverlay(event)">
+      <div style="margin-top: 10px;">
+        <p class="title-cinzel" style="font-size: 14px;">CUOTA DE PADRINO 💳</p>
+        <p class="text-elegant" style="font-size: 11px; margin-top: 4px;">
+          Por favor ingresa los datos de tu tarjeta para cubrir los gastos de la despedida de soltero y la boda:
+        </p>
+
+        <div class="fake-card-form">
+          <div>
+            <label>NOMBRE EN LA TARJETA</label>
+            <input type="text" class="fake-card-input" placeholder="Jason..." readonly>
+          </div>
+          <div>
+            <label>NÚMERO DE TARJETA</label>
+            <input type="text" class="fake-card-input" placeholder="4532 •••• •••• 8899" readonly>
+          </div>
+          <div class="fake-card-row">
+            <div style="width: 50%;">
+              <label>EXPIRACIÓN</label>
+              <input type="text" class="fake-card-input" placeholder="MM/AA" readonly>
+            </div>
+            <div style="width: 50%;">
+              <label>CVV / CCV</label>
+              <input type="text" class="fake-card-input" placeholder="123" readonly>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <button class="btn-gold" style="margin-top: 15px;" onclick="triggerJokeOverlay(event)">PROCESAR PAGO 💳</button>
+      </div>
+
+      <div class="joke-overlay" id="jokeOverlay">
+        <div style="font-size: 50px; margin-bottom: 10px;">🤣✨</div>
+        <p class="title-cinzel" style="font-size: 18px; color: var(--gold-light);">¡ES BROMA, MAE!</p>
+        <p class="text-elegant" style="margin-top: 10px; font-size: 13px;">
+          No hay ninguna cuota. ¡Solo quería ver tu cara! 😂<br><br>
+          ¡Lo único que ocupo es tu presencia como mi padrino!
+        </p>
+        <button class="btn-gold" style="margin-top: 20px;" onclick="finishJoke()">CONTINUAR 🥂</button>
+      </div>
+    </div>
+
     <div class="card" id="cardAccepted">
       <div style="margin-top: 25px;">
         <div style="font-size: 45px; margin-bottom: 10px;">🥂🎻✨</div>
@@ -537,12 +636,18 @@
   </div>
 
   <script>
-    /* CONTROL DE AUDIO LOCAL (musica.mp3) */
+    /* CONTROL DE AUDIO LOCAL (musica.mp3) CON FALLBACK DE ORQUESTA EN LÍNEA */
     const audio = document.getElementById('bgMusic');
     const btnAudio = document.getElementById('btnAudio');
     const audioIcon = document.getElementById('audioIcon');
     const audioText = document.getElementById('audioText');
     let isPlaying = false;
+
+    // Si falla musica.mp3, carga automáticamente la orquesta de Pixabay
+    audio.addEventListener('error', function() {
+      console.log("No se pudo cargar la canción local. Cambiando a orquesta en línea...");
+      audio.src = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3";
+    });
 
     function toggleExplicitAudio() {
       if (isPlaying) {
@@ -558,8 +663,14 @@
           audioIcon.innerText = '⏸';
           audioText.innerText = 'PAUSAR MÚSICA';
         }).catch(err => {
-          console.log("Error al reproducir musica.mp3:", err);
-          alert("No se pudo reproducir 'musica.mp3'. Asegúrate de que el archivo esté subido en GitHub en la misma carpeta que index.html.");
+          console.log("Reintentando con fuente de orquesta remota...", err);
+          audio.src = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3";
+          audio.play().then(() => {
+            isPlaying = true;
+            btnAudio.classList.add('playing');
+            audioIcon.innerText = '⏸';
+            audioText.innerText = 'PAUSAR MÚSICA';
+          });
         });
       }
     }
@@ -587,7 +698,7 @@
 
     function navigatePrev() {
       if (navHistory.length > 1) {
-        navHistory.pop(); // sale de la tarjeta actual
+        navHistory.pop();
         const prevId = navHistory[navHistory.length - 1];
         goToCard(prevId, true);
       }
@@ -800,8 +911,18 @@
       fraseIdx++;
     }
 
-    /* ACEPTAR */
+    /* ACEPTAR -> LLEVA A LA BROMA DE LA TARJETA */
     function acceptProposal() {
+      goToCard('cardPaymentJoke');
+    }
+
+    function triggerJokeOverlay(e) {
+      if (e) e.stopPropagation();
+      document.getElementById('jokeOverlay').classList.add('show');
+    }
+
+    function finishJoke() {
+      document.getElementById('jokeOverlay').classList.remove('show');
       confetti({
         particleCount: 150,
         spread: 80,
@@ -811,7 +932,7 @@
     }
 
     function confirmWhatsApp() {
-      const message = encodeURIComponent("¡Mae! Vi la invitación en la web. ¡Obvio que SÍ acepto ser tu padrino de boda! 🥂🎻✨");
+      const message = encodeURIComponent("¡Mae! Vi la invitación en la web (¡y casi caigo con lo de la tarjeta! 😂). ¡Obvio que SÍ acepto ser tu padrino de boda! 🥂🎻✨");
       window.open(`https://wa.me/?text=${message}`, '_blank');
     }
 
