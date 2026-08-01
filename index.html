@@ -84,6 +84,16 @@
       box-shadow: 0 0 12px rgba(85, 255, 136, 0.3);
     }
 
+    /* Ocultar el iframe del video de YouTube */
+    #ytPlayerContainer {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
     /* Marco Elegante */
     .scene {
       width: 100%;
@@ -384,10 +394,9 @@
 </head>
 <body>
 
-  <audio id="bgMusic" loop preload="auto">
-    <source src="musica.mp3" type="audio/mpeg">
-    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
-  </audio>
+  <div id="ytPlayerContainer">
+    <div id="ytPlayer"></div>
+  </div>
 
   <div class="audio-bar">
     <button class="btn-audio-explicit" id="btnAudio" onclick="toggleExplicitAudio()">
@@ -518,64 +527,78 @@
 
   </div>
 
+  <script src="https://www.youtube.com/iframe_api"></script>
+
   <script>
-    const sequence = ['cardHome', 'cardMenu', 'cardNostalgia', 'cardWordle', 'cardTimeline', 'cardFinal'];
-    let activeCardId = 'cardHome';
-    
-    const audio = document.getElementById('bgMusic');
-    const btnAudio = document.getElementById('btnAudio');
-    const audioIcon = document.getElementById('audioIcon');
-    const audioText = document.getElementById('audioText');
+    // ⬇️ PEGA AQUÍ EL ID DE TU VIDEO DE YOUTUBE ⬇️
+    // Ejemplo: Si tu enlace es https://www.youtube.com/watch?v=dQw4w9WgXcQ, el ID es "dQw4w9WgXcQ"
+    const youtubeVideoId = "QuU9ovTKyvg"; // Cambia esta clave por la de tu canción favorita
+
+    let player;
+    let isYtReady = false;
     let isPlaying = false;
 
-    // Manejo automático si falla el primer origen de audio
-    audio.addEventListener('error', function() {
-      console.log("No se pudo cargar musica.mp3 local, recurriendo al servidor en línea...");
-      audio.src = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3";
-    });
+    // Cargar reproductor de YouTube
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('ytPlayer', {
+        height: '1',
+        width: '1',
+        videoId: youtubeVideoId,
+        playerVars: {
+          'playsinline': 1,
+          'controls': 0,
+          'loop': 1,
+          'playlist': youtubeVideoId
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
 
-    /* REPRODUCCIÓN / PAUSA ROBUSTA */
-    function toggleExplicitAudio() {
-      if (isPlaying) {
-        audio.pause();
+    function onPlayerReady(event) {
+      isYtReady = true;
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING) {
+        isPlaying = true;
+        btnAudio.classList.add('playing');
+        audioIcon.innerText = '⏸';
+        audioText.innerText = 'PAUSAR MÚSICA';
+      } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
         isPlaying = false;
         btnAudio.classList.remove('playing');
         audioIcon.innerText = '▶';
         audioText.innerText = 'REPRODUCIR MÚSICA';
+      }
+    }
+
+    const sequence = ['cardHome', 'cardMenu', 'cardNostalgia', 'cardWordle', 'cardTimeline', 'cardFinal'];
+    let activeCardId = 'cardHome';
+    
+    const btnAudio = document.getElementById('btnAudio');
+    const audioIcon = document.getElementById('audioIcon');
+    const audioText = document.getElementById('audioText');
+
+    /* CONTROL DE REPRODUCCIÓN YOUTUBE */
+    function toggleExplicitAudio() {
+      if (!isYtReady || !player) {
+        alert("La música aún está cargando desde YouTube, por favor intenta en un segundo.");
+        return;
+      }
+
+      if (isPlaying) {
+        player.pauseVideo();
       } else {
-        audioIcon.innerText = '⌛';
-        audioText.innerText = 'CARGANDO...';
-        
-        var playPromise = audio.play();
-        
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            isPlaying = true;
-            btnAudio.classList.add('playing');
-            audioIcon.innerText = '⏸';
-            audioText.innerText = 'PAUSAR MÚSICA';
-          }).catch(err => {
-            console.log("Error al reproducir:", err);
-            // Reintento con fuente remota si falla
-            audio.src = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3";
-            audio.play().then(() => {
-              isPlaying = true;
-              btnAudio.classList.add('playing');
-              audioIcon.innerText = '⏸';
-              audioText.innerText = 'PAUSAR MÚSICA';
-            }).catch(e => {
-              audioIcon.innerText = '▶';
-              audioText.innerText = 'REPRODUCIR MÚSICA';
-              alert("Por favor toca el botón de nuevo para iniciar la música.");
-            });
-          });
-        }
+        player.playVideo();
       }
     }
 
     function enterApp() {
-      if (!isPlaying) {
-        toggleExplicitAudio();
+      if (!isPlaying && isYtReady && player) {
+        player.playVideo();
       }
       goToCard('cardMenu');
     }
