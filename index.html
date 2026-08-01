@@ -590,7 +590,18 @@
       }
     }
 
-    const sequence = ['cardHome', 'cardMenu', 'cardNostalgia', 'cardWordle', 'cardTimeline', 'cardFinal'];
+    /* -----------------------------------------------------------
+       NAVEGACIÓN — CORREGIDA
+       Antes: usaba un arreglo fijo "sequence" con posiciones
+       lineales, así que si entrabas al Menú y saltabas directo
+       a "Wordle" o "Línea del Tiempo", el botón "‹ Atrás" te
+       llevaba a la tarjeta equivocada (a "Nuestra Historia" en
+       lugar de al Menú), porque solo miraba el índice fijo.
+       Ahora: se usa una pila de historial real (navHistory), así
+       que "Atrás" siempre regresa a la tarjeta desde la que
+       realmente llegaste, sin importar qué botón del menú usaste.
+    ----------------------------------------------------------- */
+    let navHistory = ['cardHome'];
     let activeCardId = 'cardHome';
     
     const btnAudio = document.getElementById('btnAudio');
@@ -618,12 +629,10 @@
       goToCard('cardMenu');
     }
 
-    /* CONTROL DE NAVEGACIÓN CON FLECHA ATRÁS UNICA */
     function updateNavArrows() {
-      const idx = sequence.indexOf(activeCardId);
       const btnPrev = document.getElementById('btnPrev');
 
-      if (idx <= 0) {
+      if (navHistory.length <= 1) {
         btnPrev.classList.add('disabled');
       } else {
         btnPrev.classList.remove('disabled');
@@ -631,24 +640,22 @@
     }
 
     function navigatePrev() {
-      const idx = sequence.indexOf(activeCardId);
-      if (idx > 0) {
-        goToCard(sequence[idx - 1]);
+      if (navHistory.length > 1) {
+        navHistory.pop(); // sale de la tarjeta actual
+        const prevId = navHistory[navHistory.length - 1];
+        goToCard(prevId, true);
       }
     }
 
-    function goToCard(targetId) {
+    function goToCard(targetId, isBack = false) {
       if (activeCardId === targetId) return;
 
       const current = document.getElementById(activeCardId);
       const next = document.getElementById(targetId);
 
-      const currentIdx = sequence.indexOf(activeCardId);
-      const nextIdx = sequence.indexOf(targetId);
-
       if (current) {
         current.classList.remove('active');
-        if (nextIdx < currentIdx) {
+        if (isBack) {
           current.classList.add('exit-prev');
         } else {
           current.classList.add('exit-next');
@@ -661,6 +668,11 @@
       }
 
       activeCardId = targetId;
+
+      if (!isBack) {
+        navHistory.push(targetId);
+      }
+
       updateNavArrows();
     }
 
@@ -682,7 +694,7 @@
     const nostalgiaData = [
       {
         title: "El Primer Compás",
-        text: "Nos conocimos en el último año del colegio. Poco a poco empezamos a hacer más activities juntos y a construir una gran amistad.",
+        text: "Nos conocimos en el último año del colegio. Poco a poco empezamos a hacer más actividades juntos y a construir una gran amistad.",
         imgSrc: "imagen1.jpeg",
         fallback: "imagen1.jpg"
       },
@@ -835,8 +847,10 @@
       const btn = document.getElementById('noBtn');
       const warning = document.getElementById('noWarning');
 
-      const randomX = (Math.random() - 0.5) * 120;
-      const randomY = (Math.random() - 0.5) * 80;
+      // Limitado a un rango más pequeño para que el botón no se
+      // salga del área visible de la tarjeta en pantallas angostas.
+      const randomX = (Math.random() - 0.5) * 90;
+      const randomY = (Math.random() - 0.5) * 40;
 
       btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
 
