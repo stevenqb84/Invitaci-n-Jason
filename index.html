@@ -94,6 +94,50 @@
       background-size: 24px 24px;
     }
 
+    /* Flechas de Navegación */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      background: rgba(24, 26, 38, 0.75);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      user-select: none;
+    }
+
+    .nav-arrow:active {
+      transform: translateY(-50%) scale(0.9);
+      background: var(--gold-primary);
+      color: #000;
+    }
+
+    .nav-arrow.disabled {
+      opacity: 0.25;
+      pointer-events: none;
+      border-color: #4a4e61;
+      color: #6c757d;
+    }
+
+    .nav-prev {
+      left: 10px;
+    }
+
+    .nav-next {
+      right: 10px;
+    }
+
     /* Tarjetas que se deslizan */
     .card {
       position: absolute;
@@ -101,7 +145,7 @@
       height: 100%;
       top: 0;
       left: 0;
-      padding: 28px 22px;
+      padding: 35px 45px 25px 45px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -121,7 +165,14 @@
       z-index: 2;
     }
 
-    .card.exit {
+    .card.exit-prev {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(100%);
+      z-index: 1;
+    }
+
+    .card.exit-next {
       opacity: 0;
       pointer-events: none;
       transform: translateY(-100%);
@@ -133,7 +184,7 @@
       font-family: 'Cinzel', serif;
       color: var(--gold-primary);
       letter-spacing: 2px;
-      font-size: 20px;
+      font-size: 19px;
       text-transform: uppercase;
       line-height: 1.4;
     }
@@ -142,7 +193,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-style: italic;
       color: var(--gold-light);
-      font-size: 28px;
+      font-size: 26px;
       margin: 10px 0;
       line-height: 1.2;
     }
@@ -150,7 +201,7 @@
     p.text-elegant {
       font-family: 'Montserrat', sans-serif;
       color: var(--text-muted);
-      font-size: 13px;
+      font-size: 12.5px;
       line-height: 1.6;
       font-weight: 300;
     }
@@ -160,11 +211,11 @@
       background: linear-gradient(135deg, #d4af37 0%, #aa820a 100%);
       color: #000;
       font-family: 'Cinzel', serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      padding: 14px 20px;
+      padding: 13px 18px;
       border: 1px solid var(--gold-light);
       border-radius: 8px;
       box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
@@ -182,9 +233,9 @@
     .btn-group {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       width: 100%;
-      margin-top: 15px;
+      margin-top: 12px;
     }
 
     /* Marco de Foto Clásico */
@@ -194,7 +245,7 @@
       overflow: hidden;
       border: 1px solid var(--gold-primary);
       box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-      margin: 14px 0;
+      margin: 12px 0;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -204,7 +255,7 @@
     .img-frame img {
       width: 100%;
       height: auto;
-      max-height: 220px;
+      max-height: 200px;
       object-fit: cover;
       display: block;
     }
@@ -213,16 +264,16 @@
     .deco-music-top {
       position: absolute;
       top: 10px; right: 15px;
-      font-size: 30px;
-      opacity: 0.4;
+      font-size: 24px;
+      opacity: 0.35;
       color: var(--gold-primary);
     }
 
     .deco-music-bottom {
       position: absolute;
       bottom: 10px; left: 15px;
-      font-size: 30px;
-      opacity: 0.4;
+      font-size: 24px;
+      opacity: 0.35;
       color: var(--gold-primary);
     }
 
@@ -230,26 +281,26 @@
     .wordle-board {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin: 15px 0;
+      gap: 5px;
+      margin: 12px 0;
       align-items: center;
     }
 
     .wordle-row {
       display: flex;
-      gap: 6px;
+      gap: 5px;
     }
 
     .wordle-tile {
-      width: 38px;
-      height: 38px;
+      width: 34px;
+      height: 34px;
       border: 1px solid var(--absent-gray);
-      border-radius: 6px;
+      border-radius: 5px;
       display: flex;
       justify-content: center;
       align-items: center;
       font-family: 'Cinzel', serif;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       text-transform: uppercase;
       color: var(--text-light);
@@ -273,21 +324,21 @@
 
     .wordle-input-container {
       display: flex;
-      gap: 8px;
-      margin-top: 10px;
+      gap: 6px;
+      margin-top: 8px;
     }
 
     .wordle-input {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid var(--gold-primary);
       border-radius: 6px;
-      padding: 10px;
+      padding: 8px;
       color: var(--gold-light);
       font-family: 'Cinzel', serif;
-      font-size: 16px;
+      font-size: 15px;
       text-transform: uppercase;
       text-align: center;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       width: 70%;
     }
 
@@ -295,18 +346,18 @@
       background: rgba(255, 255, 255, 0.03);
       border-left: 2px solid var(--gold-primary);
       border-radius: 0 8px 8px 0;
-      padding: 12px;
-      font-size: 12px;
+      padding: 10px;
+      font-size: 11.5px;
       text-align: left;
       color: var(--text-muted);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     /* Pantalla Final */
     .final-btns {
       position: relative;
-      height: 100px;
-      margin-top: 20px;
+      height: 90px;
+      margin-top: 15px;
     }
 
     #noBtn {
@@ -327,7 +378,7 @@
     }
 
     .footer-note {
-      font-size: 11px;
+      font-size: 10.5px;
       color: #8a8f9d;
     }
   </style>
@@ -344,13 +395,16 @@
 
   <div class="scene">
 
+    <button class="nav-arrow nav-prev disabled" id="btnPrev" onclick="navigatePrev()" title="Página Anterior">‹</button>
+    <button class="nav-arrow nav-next" id="btnNext" onclick="navigateNext()" title="Página Siguiente">›</button>
+
     <div class="card active" id="cardHome">
       <div class="deco-music-top">🎻</div>
-      <div style="margin-top: 15px;">
+      <div style="margin-top: 10px;">
         <p class="title-cinzel">HOLA, JASON</p>
         <h2 class="subtitle-garamond">Una gran amistad es como una sinfonía perfecta...</h2>
         
-        <p class="text-elegant" style="margin-bottom: 10px;">
+        <p class="text-elegant">
           Escrita con los mejores momentos y las notas de una verdadera hermandad.
         </p>
         
@@ -366,9 +420,9 @@
     </div>
 
     <div class="card" id="cardMenu">
-      <div style="margin-top: 20px;">
+      <div style="margin-top: 15px;">
         <p class="title-cinzel">SELECCIONA UNA OPCIÓN</p>
-        <p class="text-elegant" style="margin-top: 8px;">Explora la experiencia antes de continuar</p>
+        <p class="text-elegant" style="margin-top: 6px;">Explora la experiencia antes de continuar</p>
       </div>
 
       <div class="btn-group">
@@ -377,8 +431,8 @@
         <button class="btn-gold" onclick="startTimeline()">LÍNEA DEL TIEMPO ⏳</button>
       </div>
 
-      <div style="margin-bottom: 10px;">
-        <p class="footer-note">Pasa el desafío para desbloquear el mensaje principal</p>
+      <div style="margin-bottom: 5px;">
+        <p class="footer-note">Usa las flechas laterales ‹ › para navegar</p>
       </div>
       <div class="deco-music-bottom">🎼</div>
     </div>
@@ -394,16 +448,16 @@
 
     <div class="card" id="cardWordle">
       <div>
-        <p class="title-cinzel" style="font-size: 16px;">PALABRA SECRETA 🧩</p>
+        <p class="title-cinzel" style="font-size: 15px;">PALABRA SECRETA 🧩</p>
         <p class="text-elegant" style="font-size: 11px; margin-top: 4px;">Descubre la palabra clave de 6 letras para ingresar</p>
         
         <div class="wordle-board" id="wordleBoard"></div>
 
         <div class="wordle-input-container">
           <input type="text" id="wordleInput" class="wordle-input" maxlength="6" placeholder="______" autocomplete="off">
-          <button class="btn-gold" style="width: 30%; margin:0; padding: 10px;" onclick="submitWordleGuess()">PROBAR</button>
+          <button class="btn-gold" style="width: 32%; margin:0; padding: 8px;" onclick="submitWordleGuess()">PROBAR</button>
         </div>
-        <p id="wordleStatus" class="text-elegant" style="font-size: 11px; margin-top: 8px; color: var(--gold-light);"></p>
+        <p id="wordleStatus" class="text-elegant" style="font-size: 11px; margin-top: 6px; color: var(--gold-light);"></p>
       </div>
       <div>
         <button class="btn-gold" style="font-size: 10px; padding: 10px;" onclick="goToCard('cardMenu')">← MENÚ PRINCIPAL</button>
@@ -412,7 +466,7 @@
 
     <div class="card" id="cardTimeline">
       <div>
-        <p class="title-cinzel" style="font-size: 17px; margin-bottom: 15px;">MOMENTO A MOMENTO 🎻</p>
+        <p class="title-cinzel" style="font-size: 16px; margin-bottom: 12px;">MOMENTO A MOMENTO 🎻</p>
         
         <div class="timeline">
           <div class="timeline-item">🎓 <b>Último año del colegio:</b> Nos conocimos y comenzamos a compartir actividades juntos.</div>
@@ -427,32 +481,32 @@
 
     <div class="card" id="cardFinal">
       <div class="deco-music-top">🥂</div>
-      <div style="margin-top: 15px;">
-        <p class="title-cinzel" style="font-size: 16px;">UNA PREGUNTA IMPORTANTE</p>
+      <div style="margin-top: 10px;">
+        <p class="title-cinzel" style="font-size: 15px;">UNA PREGUNTA IMPORTANTE</p>
         
-        <p class="text-elegant" style="margin-top: 15px;">
+        <p class="text-elegant" style="margin-top: 10px;">
           Jason, hemos compartido momentos inolvidables desde el colegio y has sido un hermano indispensable en mi vida.
         </p>
 
-        <h2 class="subtitle-garamond" style="margin-top: 15px; font-size: 26px;">¿Aceptas ser mi padrino de boda?</h2>
+        <h2 class="subtitle-garamond" style="margin-top: 10px; font-size: 24px;">¿Aceptas ser mi padrino de boda?</h2>
 
         <div class="final-btns">
           <button class="btn-gold" id="yesBtn" onclick="acceptProposal()">SÍ, ACEPTO</button>
           <button class="btn-gold" id="noBtn" onmouseover="escapeNoBtn()" onclick="escapeNoBtn()">NO</button>
         </div>
-        <p id="noWarning" class="footer-note" style="height: 15px; margin-top: 10px;"></p>
+        <p id="noWarning" class="footer-note" style="height: 15px; margin-top: 5px;"></p>
       </div>
       <div class="deco-music-bottom">💍</div>
     </div>
 
     <div class="card" id="cardAccepted">
-      <div style="margin-top: 30px;">
-        <div style="font-size: 50px; margin-bottom: 10px;">🥂🎻✨</div>
-        <p class="title-cinzel" style="font-size: 18px;">¡HONRADO DE CONTAR CONTIGO!</p>
-        <p class="text-elegant" style="margin-top: 15px;">
+      <div style="margin-top: 25px;">
+        <div style="font-size: 45px; margin-bottom: 10px;">🥂🎻✨</div>
+        <p class="title-cinzel" style="font-size: 17px;">¡HONRADO DE CONTAR CONTIGO!</p>
+        <p class="text-elegant" style="margin-top: 12px;">
           ¡Gracias por acompañarme desde el colegio y por estar a mi lado en este día tan significativo!
         </p>
-        <p class="subtitle-garamond" style="margin-top: 15px; font-size: 24px;">¡Haremos una gran celebración!</p>
+        <p class="subtitle-garamond" style="margin-top: 12px; font-size: 22px;">¡Haremos una gran celebración!</p>
       </div>
       <div>
         <button class="btn-gold" onclick="confirmWhatsApp()">CONFIRMAR POR WHATSAPP 📱</button>
@@ -462,7 +516,9 @@
   </div>
 
   <script>
+    const sequence = ['cardHome', 'cardMenu', 'cardNostalgia', 'cardWordle', 'cardTimeline', 'cardFinal'];
     let activeCardId = 'cardHome';
+    
     const audio = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicBtn');
     let isPlaying = false;
@@ -474,7 +530,7 @@
         musicBtn.classList.add('playing');
         musicBtn.innerText = '🎵';
       }).catch(err => {
-        console.log("Autoplay bloqueado por el navegador:", err);
+        console.log("Autoplay bloqueado:", err);
       });
     }
 
@@ -494,21 +550,70 @@
       goToCard('cardMenu');
     }
 
+    /* CONTROL DE NAVEGACIÓN CON FLECHAS Y TARJETAS */
+    function updateNavArrows() {
+      const idx = sequence.indexOf(activeCardId);
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+
+      if (idx <= 0) {
+        btnPrev.classList.add('disabled');
+      } else {
+        btnPrev.classList.remove('disabled');
+      }
+
+      if (idx < 0 || idx >= sequence.length - 1 || activeCardId === 'cardAccepted') {
+        btnNext.classList.add('disabled');
+      } else {
+        btnNext.classList.remove('disabled');
+      }
+    }
+
+    function navigatePrev() {
+      const idx = sequence.indexOf(activeCardId);
+      if (idx > 0) {
+        goToCard(sequence[idx - 1]);
+      }
+    }
+
+    function navigateNext() {
+      const idx = sequence.indexOf(activeCardId);
+      if (idx >= 0 && idx < sequence.length - 1) {
+        if (sequence[idx + 1] === 'cardNostalgia') {
+          startNostalgia();
+        } else if (sequence[idx + 1] === 'cardWordle') {
+          startWordle();
+        } else {
+          goToCard(sequence[idx + 1]);
+        }
+      }
+    }
+
     function goToCard(targetId) {
+      if (activeCardId === targetId) return;
+
       const current = document.getElementById(activeCardId);
       const next = document.getElementById(targetId);
 
+      const currentIdx = sequence.indexOf(activeCardId);
+      const nextIdx = sequence.indexOf(targetId);
+
       if (current) {
         current.classList.remove('active');
-        current.classList.add('exit');
+        if (nextIdx < currentIdx) {
+          current.classList.add('exit-prev');
+        } else {
+          current.classList.add('exit-next');
+        }
       }
 
       if (next) {
-        next.classList.remove('exit');
+        next.classList.remove('exit-prev', 'exit-next');
         next.classList.add('active');
       }
 
       activeCardId = targetId;
+      updateNavArrows();
     }
 
     /* MODO 1: NOSTALGIA */
@@ -541,12 +646,12 @@
       const data = nostalgiaData[nostalgiaStep];
       const content = document.getElementById('nostalgiaContent');
 
-      let html = `<div style="margin-top:15px;">
-        <p class="title-cinzel" style="font-size:16px;">${data.title}</p>`;
+      let html = `<div style="margin-top:10px;">
+        <p class="title-cinzel" style="font-size:15px;">${data.title}</p>`;
 
-      if (data.icon) html += `<div style="font-size:35px; margin:15px 0;">${data.icon}</div>`;
+      if (data.icon) html += `<div style="font-size:32px; margin:12px 0;">${data.icon}</div>`;
       
-      html += `<p class="text-elegant" style="margin-top:10px;">${data.text}</p>`;
+      html += `<p class="text-elegant" style="margin-top:8px;">${data.text}</p>`;
 
       if (data.imgSrc) {
         html += `
@@ -688,6 +793,9 @@
       const message = encodeURIComponent("¡Mae! Vi la invitación en la web. ¡Obvio que SÍ acepto ser tu padrino de boda! 🥂🎻✨");
       window.open(`https://wa.me/?text=${message}`, '_blank');
     }
+
+    // Inicializar flechas
+    updateNavArrows();
   </script>
 </body>
 </html>
