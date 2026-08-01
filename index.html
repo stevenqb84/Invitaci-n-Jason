@@ -9,7 +9,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght=0,400;0,600;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -450,6 +450,20 @@
       font-size: 10.5px;
       color: #8a8f9d;
     }
+
+    /* Firma de los Novios */
+    .signature-container {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .signature-text {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-light);
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
@@ -600,16 +614,25 @@
     </div>
 
     <div class="card" id="cardAccepted">
-      <div style="margin-top: 25px;">
-        <div style="font-size: 45px; margin-bottom: 10px;">🥂🎻✨</div>
+      <div style="margin-top: 15px;">
+        <div style="font-size: 40px; margin-bottom: 10px;">🥂🎻✨</div>
         <p class="title-cinzel" style="font-size: 17px;">¡HONRADO DE CONTAR CON VOS!</p>
-        <p class="text-elegant" style="margin-top: 12px;">
+        <p class="text-elegant" style="margin-top: 10px; font-size: 11.5px;">
           ¡Gracias por acompañarme desde el colegio y por estar a mi lado en este día tan significativo!
         </p>
-        <p class="subtitle-garamond" style="margin-top: 12px; font-size: 22px;">¡Haremos una gran celebración!</p>
+        
+        <div class="img-frame" style="margin-top: 10px; min-height: 120px;">
+          <img src="imagen4.jpeg" alt="Novios" onerror="handleImageError(this, 'imagen4.jpg')">
+        </div>
+        
+        <div class="signature-container">
+          <p class="signature-text">Con amor Karla y Steven</p>
+        </div>
+
+        <p class="subtitle-garamond" style="margin-top: 10px; font-size: 20px;">¡Haremos una gran celebración!</p>
       </div>
       <div>
-        <button class="btn-gold" onclick="confirmWhatsApp()">CONFIRMAR POR WHATSAPP 📱</button>
+        <button class="btn-gold" style="font-size: 11px;" onclick="confirmWhatsApp()">CONFIRMAR POR WHATSAPP 📱</button>
       </div>
     </div>
 
