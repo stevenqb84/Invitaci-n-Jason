@@ -260,7 +260,6 @@
       display: block;
     }
 
-    /* Imagen decorativa si no carga */
     .img-frame::after {
       content: '🎻';
       font-size: 50px;
@@ -370,7 +369,7 @@
       margin-bottom: 8px;
     }
 
-    /* Pantalla de Tarjeta Falsa (Broma) */
+    /* Formulario Tarjeta Falsa */
     .fake-card-form {
       display: flex;
       flex-direction: column;
@@ -402,7 +401,7 @@
       gap: 10px;
     }
 
-    /* Overlay / Alerta de "Es broma" */
+    /* Overlay "Es broma" */
     .joke-overlay {
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -424,7 +423,6 @@
       pointer-events: auto;
     }
 
-    /* Pantalla Final */
     .final-btns {
       position: relative;
       height: 90px;
@@ -490,27 +488,9 @@
       </div>
 
       <div>
-        <button class="btn-gold" onclick="enterApp()">INGRESAR 🎼</button>
+        <button class="btn-gold" onclick="enterApp()">COMENZAR HISTORIA 📜</button>
       </div>
       <div class="deco-music-bottom">🎹</div>
-    </div>
-
-    <div class="card" id="cardMenu">
-      <div style="margin-top: 15px;">
-        <p class="title-cinzel">SELECCIONA UNA OPCIÓN</p>
-        <p class="text-elegant" style="margin-top: 6px;">Explora la experiencia antes de continuar</p>
-      </div>
-
-      <div class="btn-group">
-        <button class="btn-gold" onclick="startNostalgia()">NUESTRA HISTORIA 📜</button>
-        <button class="btn-gold" onclick="startWordle()">DESAFÍO PALABRA SECRETA 🧩</button>
-        <button class="btn-gold" onclick="startTimeline()">LÍNEA DEL TIEMPO ⏳</button>
-      </div>
-
-      <div style="margin-bottom: 5px;">
-        <p class="footer-note">Usa la flecha lateral ‹ para retroceder</p>
-      </div>
-      <div class="deco-music-bottom">🎼</div>
     </div>
 
     <div class="card" id="cardNostalgia">
@@ -525,7 +505,7 @@
     <div class="card" id="cardWordle">
       <div>
         <p class="title-cinzel" style="font-size: 15px;">PALABRA SECRETA 🧩</p>
-        <p class="text-elegant" style="font-size: 11px; margin-top: 4px;">Descubre la palabra clave de 6 letras para ingresar</p>
+        <p class="text-elegant" style="font-size: 11px; margin-top: 4px;">Descubre la palabra clave de 6 letras para desbloquear el siguiente paso</p>
         
         <div class="wordle-board" id="wordleBoard"></div>
 
@@ -536,7 +516,7 @@
         <p id="wordleStatus" class="text-elegant" style="font-size: 11px; margin-top: 6px; color: var(--gold-light);"></p>
       </div>
       <div>
-        <button class="btn-gold" style="font-size: 10px; padding: 10px;" onclick="goToCard('cardMenu')">← MENÚ PRINCIPAL</button>
+        <p class="footer-note">Adivina la palabra para continuar</p>
       </div>
     </div>
 
@@ -551,7 +531,7 @@
         </div>
       </div>
       <div>
-        <button class="btn-gold" onclick="goToCard('cardFinal')">CONTINUAR 🥂</button>
+        <button class="btn-gold" onclick="goToCard('cardFinal')">IR A LA PREGUNTA 🥂</button>
       </div>
     </div>
 
@@ -636,16 +616,14 @@
   </div>
 
   <script>
-    /* CONTROL DE AUDIO LOCAL (musica.mp3) CON FALLBACK DE ORQUESTA EN LÍNEA */
+    /* CONTROL DE AUDIO */
     const audio = document.getElementById('bgMusic');
     const btnAudio = document.getElementById('btnAudio');
     const audioIcon = document.getElementById('audioIcon');
     const audioText = document.getElementById('audioText');
     let isPlaying = false;
 
-    // Si falla musica.mp3, carga automáticamente la orquesta de Pixabay
     audio.addEventListener('error', function() {
-      console.log("No se pudo cargar la canción local. Cambiando a orquesta en línea...");
       audio.src = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3";
     });
 
@@ -663,7 +641,6 @@
           audioIcon.innerText = '⏸';
           audioText.innerText = 'PAUSAR MÚSICA';
         }).catch(err => {
-          console.log("Reintentando con fuente de orquesta remota...", err);
           audio.src = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3";
           audio.play().then(() => {
             isPlaying = true;
@@ -679,10 +656,10 @@
       if (!isPlaying) {
         toggleExplicitAudio();
       }
-      goToCard('cardMenu');
+      startNostalgia();
     }
 
-    /* NAVEGACIÓN BASADA EN HISTORIAL (navHistory) */
+    /* NAVEGACIÓN EN ORDEN LINEAL */
     let navHistory = ['cardHome'];
     let activeCardId = 'cardHome';
 
@@ -733,7 +710,7 @@
       updateNavArrows();
     }
 
-    /* MANEJO ROBUSTO DE ERRORES DE IMAGEN */
+    /* MANEJO DE ERRORES DE IMAGEN */
     function handleImageError(imgTag, fallbackSrc) {
       if (imgTag.src.endsWith('.jpeg')) {
         imgTag.src = fallbackSrc;
@@ -744,7 +721,7 @@
       }
     }
 
-    /* MODO 1: NOSTALGIA CON LAS 3 IMÁGENES */
+    /* SECCIÓN 1: NOSTALGIA */
     let nostalgiaStep = 0;
     const nostalgiaData = [
       {
@@ -798,7 +775,7 @@
 
       const btns = document.getElementById('nostalgiaBtns');
       if (data.finalStep) {
-        btns.innerHTML = `<button class="btn-gold" onclick="goToCard('cardFinal')">CONTINUAR 🥂</button>`;
+        btns.innerHTML = `<button class="btn-gold" onclick="startWordle()">SIGUIENTE: DESAFÍO 🧩</button>`;
       } else {
         btns.innerHTML = `<button class="btn-gold" onclick="nextNostalgiaStep()">SIGUIENTE →</button>`;
       }
@@ -811,7 +788,7 @@
       }
     }
 
-    /* MODO 2: JUEGO WORDLE (PALABRA SECRETA: SANDIA) */
+    /* SECCIÓN 2: PALABRA SECRETA (WORDLE) */
     const secretWord = "SANDIA";
     let currentAttempt = 0;
     const maxAttempts = 5;
@@ -870,7 +847,7 @@
         document.getElementById('wordleStatus').innerText = "✨ ¡CORRECTO! DESBLOQUEADO ✨";
         confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
         setTimeout(() => {
-          goToCard('cardFinal');
+          goToCard('cardTimeline');
         }, 1200);
       } else {
         currentAttempt++;
@@ -883,12 +860,7 @@
       }
     }
 
-    /* MODO 3: TIMELINE */
-    function startTimeline() {
-      goToCard('cardTimeline');
-    }
-
-    /* BOTÓN ESCAPISTA NO */
+    /* SECCIÓN 3: PREGUNTA & BROMA */
     const noFrases = [
       "¿Seguro, mae? 🤨",
       "Piénsalo bien...",
@@ -911,7 +883,6 @@
       fraseIdx++;
     }
 
-    /* ACEPTAR -> LLEVA A LA BROMA DE LA TARJETA */
     function acceptProposal() {
       goToCard('cardPaymentJoke');
     }
@@ -936,7 +907,6 @@
       window.open(`https://wa.me/?text=${message}`, '_blank');
     }
 
-    // Inicializar flecha atrás
     updateNavArrows();
   </script>
 </body>
