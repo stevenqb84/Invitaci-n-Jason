@@ -84,7 +84,7 @@
       box-shadow: 0 0 12px rgba(85, 255, 136, 0.3);
     }
 
-    /* Ocultar el iframe del video de YouTube */
+    /* Ocultar reproductor invisible de YouTube */
     #ytPlayerContainer {
       position: absolute;
       width: 1px;
@@ -421,7 +421,7 @@
         </p>
         
         <div class="img-frame">
-          <img src="Imagen1.jpeg" alt="Recuerdo juntos" onerror="this.onerror=null; this.src='Imagen1.jpg';">
+          <img src="imagen1.jpeg" alt="Recuerdo juntos" onerror="this.onerror=null; this.src='imagen1.jpg';">
         </div>
       </div>
 
@@ -530,15 +530,13 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
-    // ⬇️ PEGA AQUÍ EL ID DE TU VIDEO DE YOUTUBE ⬇️
-    // Ejemplo: Si tu enlace es https://www.youtube.com/watch?v=dQw4w9WgXcQ, el ID es "dQw4w9WgXcQ"
-    const youtubeVideoId = "QuU9ovTKyvg"; // Cambia esta clave por la de tu canción favorita
+    // ID de la canción de YouTube
+    const youtubeVideoId = "30b08O9N-_U";
 
     let player;
     let isYtReady = false;
     let isPlaying = false;
 
-    // Cargar reproductor de YouTube
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('ytPlayer', {
         height: '1',
@@ -585,7 +583,7 @@
     /* CONTROL DE REPRODUCCIÓN YOUTUBE */
     function toggleExplicitAudio() {
       if (!isYtReady || !player) {
-        alert("La música aún está cargando desde YouTube, por favor intenta en un segundo.");
+        alert("La música está cargando, intenta de nuevo en un segundo.");
         return;
       }
 
@@ -669,22 +667,23 @@
       updateNavArrows();
     }
 
-    /* MODO 1: NOSTALGIA */
+    /* MODO 1: NOSTALGIA CON LAS 3 IMÁGENES */
     let nostalgiaStep = 0;
     const nostalgiaData = [
       {
         title: "El Primer Compás",
         text: "Nos conocimos en el último año del colegio. Poco a poco empezamos a hacer más actividades juntos y a construir una gran amistad.",
-        imgSrc: "Imagen1.jpeg"
+        imgSrc: "imagen1.jpeg"
       },
       {
         title: "Compartiendo la Vida",
         text: "Desde aquellas primeras vivencias en el colegio, hemos mantenido la lealtad y los buenos momentos a lo largo del tiempo.",
-        icon: "🎼"
+        imgSrc: "imagen2.jpeg"
       },
       {
         title: "Un Gran Paso",
         text: "Y ahora que se acerca uno de los eventos más trascendentales, quiero que me acompañes en un rol muy especial.",
+        imgSrc: "imagen3.jpeg",
         finalStep: true
       }
     ];
