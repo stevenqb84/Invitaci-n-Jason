@@ -56,11 +56,11 @@
     }
 
     .btn-audio-explicit {
-      background: rgba(24, 26, 38, 0.9);
+      background: rgba(24, 26, 38, 0.95);
       color: var(--gold-light);
       border: 1.5px solid var(--gold-primary);
       border-radius: 25px;
-      padding: 8px 18px;
+      padding: 10px 20px;
       font-family: 'Cinzel', serif;
       font-size: 11px;
       font-weight: 700;
@@ -410,3 +410,422 @@
         <p class="text-elegant">
           Escrita con los mejores momentos y las notas de una verdadera hermandad.
         </p>
+        
+        <div class="img-frame">
+          <img src="Imagen1.jpeg" alt="Recuerdo juntos" onerror="this.onerror=null; this.src='Imagen1.jpg';">
+        </div>
+      </div>
+
+      <div>
+        <button class="btn-gold" onclick="enterApp()">INGRESAR 🎼</button>
+      </div>
+      <div class="deco-music-bottom">🎹</div>
+    </div>
+
+    <div class="card" id="cardMenu">
+      <div style="margin-top: 15px;">
+        <p class="title-cinzel">SELECCIONA UNA OPCIÓN</p>
+        <p class="text-elegant" style="margin-top: 6px;">Explora la experiencia antes de continuar</p>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn-gold" onclick="startNostalgia()">NUESTRA HISTORIA 📜</button>
+        <button class="btn-gold" onclick="startWordle()">DESAFÍO PALABRA SECRETA 🧩</button>
+        <button class="btn-gold" onclick="startTimeline()">LÍNEA DEL TIEMPO ⏳</button>
+      </div>
+
+      <div style="margin-bottom: 5px;">
+        <p class="footer-note">Usa las flechas laterales ‹ › para navegar</p>
+      </div>
+      <div class="deco-music-bottom">🎼</div>
+    </div>
+
+    <div class="card" id="cardNostalgia">
+      <div id="nostalgiaContent"></div>
+      <div>
+        <div class="btn-group" id="nostalgiaBtns">
+          <button class="btn-gold" onclick="nextNostalgiaStep()">SIGUIENTE →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="cardWordle">
+      <div>
+        <p class="title-cinzel" style="font-size: 15px;">PALABRA SECRETA 🧩</p>
+        <p class="text-elegant" style="font-size: 11px; margin-top: 4px;">Descubre la palabra clave de 6 letras para ingresar</p>
+        
+        <div class="wordle-board" id="wordleBoard"></div>
+
+        <div class="wordle-input-container">
+          <input type="text" id="wordleInput" class="wordle-input" maxlength="6" placeholder="______" autocomplete="off">
+          <button class="btn-gold" style="width: 32%; margin:0; padding: 8px;" onclick="submitWordleGuess()">PROBAR</button>
+        </div>
+        <p id="wordleStatus" class="text-elegant" style="font-size: 11px; margin-top: 6px; color: var(--gold-light);"></p>
+      </div>
+      <div>
+        <button class="btn-gold" style="font-size: 10px; padding: 10px;" onclick="goToCard('cardMenu')">← MENÚ PRINCIPAL</button>
+      </div>
+    </div>
+
+    <div class="card" id="cardTimeline">
+      <div>
+        <p class="title-cinzel" style="font-size: 16px; margin-bottom: 12px;">MOMENTO A MOMENTO 🎻</p>
+        
+        <div class="timeline">
+          <div class="timeline-item">🎓 <b>Último año del colegio:</b> Nos conocimos y comenzamos a compartir actividades juntos.</div>
+          <div class="timeline-item">🎼 <b>Harmonía:</b> Con el tiempo, esa amistad se convirtió en una constante importante en la vida.</div>
+          <div class="timeline-item">🥂 <b>Hoy:</b> Años de momentos compartidos y una hermandad intacta.</div>
+        </div>
+      </div>
+      <div>
+        <button class="btn-gold" onclick="goToCard('cardFinal')">CONTINUAR 🥂</button>
+      </div>
+    </div>
+
+    <div class="card" id="cardFinal">
+      <div class="deco-music-top">🥂</div>
+      <div style="margin-top: 10px;">
+        <p class="title-cinzel" style="font-size: 15px;">UNA PREGUNTA IMPORTANTE</p>
+        
+        <p class="text-elegant" style="margin-top: 10px;">
+          Jason, hemos compartido momentos inolvidables desde el colegio y has sido un hermano indispensable en mi vida.
+        </p>
+
+        <h2 class="subtitle-garamond" style="margin-top: 10px; font-size: 24px;">¿Aceptas ser mi padrino de boda?</h2>
+
+        <div class="final-btns">
+          <button class="btn-gold" id="yesBtn" onclick="acceptProposal()">SÍ, ACEPTO</button>
+          <button class="btn-gold" id="noBtn" onmouseover="escapeNoBtn()" onclick="escapeNoBtn()">NO</button>
+        </div>
+        <p id="noWarning" class="footer-note" style="height: 15px; margin-top: 5px;"></p>
+      </div>
+      <div class="deco-music-bottom">💍</div>
+    </div>
+
+    <div class="card" id="cardAccepted">
+      <div style="margin-top: 25px;">
+        <div style="font-size: 45px; margin-bottom: 10px;">🥂🎻✨</div>
+        <p class="title-cinzel" style="font-size: 17px;">¡HONRADO DE CONTAR CONTIGO!</p>
+        <p class="text-elegant" style="margin-top: 12px;">
+          ¡Gracias por acompañarme desde el colegio y por estar a mi lado en este día tan significativo!
+        </p>
+        <p class="subtitle-garamond" style="margin-top: 12px; font-size: 22px;">¡Haremos una gran celebración!</p>
+      </div>
+      <div>
+        <button class="btn-gold" onclick="confirmWhatsApp()">CONFIRMAR POR WHATSAPP 📱</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const sequence = ['cardHome', 'cardMenu', 'cardNostalgia', 'cardWordle', 'cardTimeline', 'cardFinal'];
+    let activeCardId = 'cardHome';
+    
+    const audio = document.getElementById('bgMusic');
+    const btnAudio = document.getElementById('btnAudio');
+    const audioIcon = document.getElementById('audioIcon');
+    const audioText = document.getElementById('audioText');
+    let isPlaying = false;
+
+    // Manejo automático si falla el primer origen de audio
+    audio.addEventListener('error', function() {
+      console.log("No se pudo cargar musica.mp3 local, recurriendo al servidor en línea...");
+      audio.src = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3";
+    });
+
+    /* REPRODUCCIÓN / PAUSA ROBUSTA */
+    function toggleExplicitAudio() {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        btnAudio.classList.remove('playing');
+        audioIcon.innerText = '▶';
+        audioText.innerText = 'REPRODUCIR MÚSICA';
+      } else {
+        audioIcon.innerText = '⌛';
+        audioText.innerText = 'CARGANDO...';
+        
+        var playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            isPlaying = true;
+            btnAudio.classList.add('playing');
+            audioIcon.innerText = '⏸';
+            audioText.innerText = 'PAUSAR MÚSICA';
+          }).catch(err => {
+            console.log("Error al reproducir:", err);
+            // Reintento con fuente remota si falla
+            audio.src = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3";
+            audio.play().then(() => {
+              isPlaying = true;
+              btnAudio.classList.add('playing');
+              audioIcon.innerText = '⏸';
+              audioText.innerText = 'PAUSAR MÚSICA';
+            }).catch(e => {
+              audioIcon.innerText = '▶';
+              audioText.innerText = 'REPRODUCIR MÚSICA';
+              alert("Por favor toca el botón de nuevo para iniciar la música.");
+            });
+          });
+        }
+      }
+    }
+
+    function enterApp() {
+      if (!isPlaying) {
+        toggleExplicitAudio();
+      }
+      goToCard('cardMenu');
+    }
+
+    /* CONTROL DE NAVEGACIÓN CON FLECHAS Y TARJETAS */
+    function updateNavArrows() {
+      const idx = sequence.indexOf(activeCardId);
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+
+      if (idx <= 0) {
+        btnPrev.classList.add('disabled');
+      } else {
+        btnPrev.classList.remove('disabled');
+      }
+
+      if (idx < 0 || idx >= sequence.length - 1 || activeCardId === 'cardAccepted') {
+        btnNext.classList.add('disabled');
+      } else {
+        btnNext.classList.remove('disabled');
+      }
+    }
+
+    function navigatePrev() {
+      const idx = sequence.indexOf(activeCardId);
+      if (idx > 0) {
+        goToCard(sequence[idx - 1]);
+      }
+    }
+
+    function navigateNext() {
+      const idx = sequence.indexOf(activeCardId);
+      if (idx >= 0 && idx < sequence.length - 1) {
+        if (sequence[idx + 1] === 'cardNostalgia') {
+          startNostalgia();
+        } else if (sequence[idx + 1] === 'cardWordle') {
+          startWordle();
+        } else {
+          goToCard(sequence[idx + 1]);
+        }
+      }
+    }
+
+    function goToCard(targetId) {
+      if (activeCardId === targetId) return;
+
+      const current = document.getElementById(activeCardId);
+      const next = document.getElementById(targetId);
+
+      const currentIdx = sequence.indexOf(activeCardId);
+      const nextIdx = sequence.indexOf(targetId);
+
+      if (current) {
+        current.classList.remove('active');
+        if (nextIdx < currentIdx) {
+          current.classList.add('exit-prev');
+        } else {
+          current.classList.add('exit-next');
+        }
+      }
+
+      if (next) {
+        next.classList.remove('exit-prev', 'exit-next');
+        next.classList.add('active');
+      }
+
+      activeCardId = targetId;
+      updateNavArrows();
+    }
+
+    /* MODO 1: NOSTALGIA */
+    let nostalgiaStep = 0;
+    const nostalgiaData = [
+      {
+        title: "El Primer Compás",
+        text: "Nos conocimos en el último año del colegio. Poco a poco empezamos a hacer más actividades juntos y a construir una gran amistad.",
+        imgSrc: "Imagen1.jpeg"
+      },
+      {
+        title: "Compartiendo la Vida",
+        text: "Desde aquellas primeras vivencias en el colegio, hemos mantenido la lealtad y los buenos momentos a lo largo del tiempo.",
+        icon: "🎼"
+      },
+      {
+        title: "Un Gran Paso",
+        text: "Y ahora que se acerca uno de los eventos más trascendentales, quiero que me acompañes en un rol muy especial.",
+        finalStep: true
+      }
+    ];
+
+    function startNostalgia() {
+      nostalgiaStep = 0;
+      renderNostalgia();
+      goToCard('cardNostalgia');
+    }
+
+    function renderNostalgia() {
+      const data = nostalgiaData[nostalgiaStep];
+      const content = document.getElementById('nostalgiaContent');
+
+      let html = `<div style="margin-top:10px;">
+        <p class="title-cinzel" style="font-size:15px;">${data.title}</p>`;
+
+      if (data.icon) html += `<div style="font-size:32px; margin:12px 0;">${data.icon}</div>`;
+      
+      html += `<p class="text-elegant" style="margin-top:8px;">${data.text}</p>`;
+
+      if (data.imgSrc) {
+        html += `
+          <div class="img-frame">
+            <img src="${data.imgSrc}" alt="Recuerdo" onerror="this.onerror=null; this.src='${data.imgSrc.replace('.jpeg', '.jpg')}';">
+          </div>
+        `;
+      }
+
+      html += `</div>`;
+      content.innerHTML = html;
+
+      const btns = document.getElementById('nostalgiaBtns');
+      if (data.finalStep) {
+        btns.innerHTML = `<button class="btn-gold" onclick="goToCard('cardFinal')">CONTINUAR 🥂</button>`;
+      } else {
+        btns.innerHTML = `<button class="btn-gold" onclick="nextNostalgiaStep()">SIGUIENTE →</button>`;
+      }
+    }
+
+    function nextNostalgiaStep() {
+      if (nostalgiaStep < nostalgiaData.length - 1) {
+        nostalgiaStep++;
+        renderNostalgia();
+      }
+    }
+
+    /* MODO 2: JUEGO WORDLE (PALABRA SECRETA: SANDIA) */
+    const secretWord = "SANDIA";
+    let currentAttempt = 0;
+    const maxAttempts = 5;
+
+    function startWordle() {
+      goToCard('cardWordle');
+      currentAttempt = 0;
+      document.getElementById('wordleStatus').innerText = "";
+      document.getElementById('wordleInput').value = "";
+      
+      const board = document.getElementById('wordleBoard');
+      board.innerHTML = "";
+      
+      for (let r = 0; r < maxAttempts; r++) {
+        const row = document.createElement('div');
+        row.className = 'wordle-row';
+        for (let c = 0; c < 6; c++) {
+          const tile = document.createElement('div');
+          tile.className = 'wordle-tile';
+          tile.id = `tile-${r}-${c}`;
+          row.appendChild(tile);
+        }
+        board.appendChild(row);
+      }
+    }
+
+    function submitWordleGuess() {
+      const input = document.getElementById('wordleInput');
+      const guess = input.value.toUpperCase().trim();
+
+      if (guess.length !== 6) {
+        document.getElementById('wordleStatus').innerText = "Escribe una palabra de 6 letras";
+        return;
+      }
+
+      if (currentAttempt >= maxAttempts) {
+        document.getElementById('wordleStatus').innerText = "Intentos agotados";
+        return;
+      }
+
+      for (let i = 0; i < 6; i++) {
+        const tile = document.getElementById(`tile-${currentAttempt}-${i}`);
+        const letter = guess[i];
+        tile.innerText = letter;
+
+        if (letter === secretWord[i]) {
+          tile.classList.add('correct');
+        } else if (secretWord.includes(letter)) {
+          tile.classList.add('present');
+        } else {
+          tile.classList.add('absent');
+        }
+      }
+
+      if (guess === secretWord) {
+        document.getElementById('wordleStatus').innerText = "✨ ¡CORRECTO! DESBLOQUEADO ✨";
+        confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+        setTimeout(() => {
+          goToCard('cardFinal');
+        }, 1200);
+      } else {
+        currentAttempt++;
+        input.value = "";
+        if (currentAttempt < maxAttempts) {
+          document.getElementById('wordleStatus').innerText = `Intento ${currentAttempt + 1} de ${maxAttempts}`;
+        } else {
+          document.getElementById('wordleStatus').innerText = "¡Casi! Puedes intentarlo de nuevo.";
+        }
+      }
+    }
+
+    /* MODO 3: TIMELINE */
+    function startTimeline() {
+      goToCard('cardTimeline');
+    }
+
+    /* BOTÓN ESCAPISTA NO */
+    const noFrases = [
+      "¿Seguro, mae? 🤨",
+      "Piénsalo bien...",
+      "Ese botón está fuera de servicio.",
+      "Opción no disponible 😉",
+      "¡Esa respuesta no aplica!"
+    ];
+    let fraseIdx = 0;
+
+    function escapeNoBtn() {
+      const btn = document.getElementById('noBtn');
+      const warning = document.getElementById('noWarning');
+
+      const randomX = (Math.random() - 0.5) * 120;
+      const randomY = (Math.random() - 0.5) * 80;
+
+      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+      warning.innerText = noFrases[fraseIdx % noFrases.length];
+      fraseIdx++;
+    }
+
+    /* ACEPTAR */
+    function acceptProposal() {
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+      goToCard('cardAccepted');
+    }
+
+    function confirmWhatsApp() {
+      const message = encodeURIComponent("¡Mae! Vi la invitación en la web. ¡Obvio que SÍ acepto ser tu padrino de boda! 🥂🎻✨");
+      window.open(`https://wa.me/?text=${message}`, '_blank');
+    }
+
+    // Inicializar flechas
+    updateNavArrows();
+  </script>
+</body>
+</html>
