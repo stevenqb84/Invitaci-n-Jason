@@ -109,7 +109,7 @@
       background-size: 24px 24px;
     }
 
-    /* Flechas de Navegación */
+    /* Flecha de Navegación Atrás (Solamente una) */
     .nav-arrow {
       position: absolute;
       top: 50%;
@@ -146,7 +146,6 @@
     }
 
     .nav-prev { left: 8px; }
-    .nav-next { right: 8px; }
 
     /* Tarjetas que se deslizan */
     .card {
@@ -259,6 +258,8 @@
       justify-content: center;
       align-items: center;
       background: #000;
+      position: relative;
+      min-height: 150px;
     }
 
     .img-frame img {
@@ -267,6 +268,23 @@
       max-height: 190px;
       object-fit: cover;
       display: block;
+    }
+
+    /* Imagen decorativa si no carga */
+    .img-frame::after {
+      content: '🎻';
+      font-size: 50px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      color: var(--gold-primary);
+      transition: opacity 0.3s ease;
+    }
+
+    .img-frame.error::after {
+      opacity: 1;
     }
 
     /* Elementos Decorativos */
@@ -408,7 +426,6 @@
   <div class="scene">
 
     <button class="nav-arrow nav-prev disabled" id="btnPrev" onclick="navigatePrev()" title="Página Anterior">‹</button>
-    <button class="nav-arrow nav-next" id="btnNext" onclick="navigateNext()" title="Página Siguiente">›</button>
 
     <div class="card active" id="cardHome">
       <div class="deco-music-top">🎻</div>
@@ -420,8 +437,8 @@
           Escrita con los mejores momentos y las notas de una verdadera hermandad.
         </p>
         
-        <div class="img-frame">
-          <img src="imagen1.jpeg" alt="Recuerdo juntos" onerror="this.onerror=null; this.src='imagen1.jpg';">
+        <div class="img-frame" id="portadaFrame">
+          <img src="imagen1.jpeg" alt="Recuerdo juntos" onerror="handleImageError(this, 'imagen1.jpg')">
         </div>
       </div>
 
@@ -444,7 +461,7 @@
       </div>
 
       <div style="margin-bottom: 5px;">
-        <p class="footer-note">Usa las flechas laterales ‹ › para navegar</p>
+        <p class="footer-note">Usa la flecha lateral ‹ para retroceder</p>
       </div>
       <div class="deco-music-bottom">🎼</div>
     </div>
@@ -530,7 +547,7 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
   <script>
-    // ID de la canción de YouTube
+    // ID de la canción de YouTube (Cambia esta clave por la de tu canción favorita)
     const youtubeVideoId = "30b08O9N-_U";
 
     let player;
@@ -601,22 +618,15 @@
       goToCard('cardMenu');
     }
 
-    /* CONTROL DE NAVEGACIÓN CON FLECHAS Y TARJETAS */
+    /* CONTROL DE NAVEGACIÓN CON FLECHA ATRÁS UNICA */
     function updateNavArrows() {
       const idx = sequence.indexOf(activeCardId);
       const btnPrev = document.getElementById('btnPrev');
-      const btnNext = document.getElementById('btnNext');
 
       if (idx <= 0) {
         btnPrev.classList.add('disabled');
       } else {
         btnPrev.classList.remove('disabled');
-      }
-
-      if (idx < 0 || idx >= sequence.length - 1 || activeCardId === 'cardAccepted') {
-        btnNext.classList.add('disabled');
-      } else {
-        btnNext.classList.remove('disabled');
       }
     }
 
@@ -624,19 +634,6 @@
       const idx = sequence.indexOf(activeCardId);
       if (idx > 0) {
         goToCard(sequence[idx - 1]);
-      }
-    }
-
-    function navigateNext() {
-      const idx = sequence.indexOf(activeCardId);
-      if (idx >= 0 && idx < sequence.length - 1) {
-        if (sequence[idx + 1] === 'cardNostalgia') {
-          startNostalgia();
-        } else if (sequence[idx + 1] === 'cardWordle') {
-          startWordle();
-        } else {
-          goToCard(sequence[idx + 1]);
-        }
       }
     }
 
@@ -667,23 +664,39 @@
       updateNavArrows();
     }
 
+    /* MANEJO ROBUSTO DE ERRORES DE IMAGEN */
+    function handleImageError(imgTag, fallbackSrc) {
+      // Si la imagen falla, intentamos cambiar .jpeg por .jpg
+      if (imgTag.src.endsWith('.jpeg')) {
+        imgTag.src = fallbackSrc;
+      } else {
+        // Si el respaldo .jpg también falla, ocultamos la imagen y mostramos el icono decorativo
+        const frame = imgTag.parentElement;
+        frame.classList.add('error');
+        imgTag.style.display = 'none';
+      }
+    }
+
     /* MODO 1: NOSTALGIA CON LAS 3 IMÁGENES */
     let nostalgiaStep = 0;
     const nostalgiaData = [
       {
         title: "El Primer Compás",
-        text: "Nos conocimos en el último año del colegio. Poco a poco empezamos a hacer más actividades juntos y a construir una gran amistad.",
-        imgSrc: "imagen1.jpeg"
+        text: "Nos conocimos en el último año del colegio. Poco a poco empezamos a hacer más activities juntos y a construir una gran amistad.",
+        imgSrc: "imagen1.jpeg",
+        fallback: "imagen1.jpg"
       },
       {
         title: "Compartiendo la Vida",
         text: "Desde aquellas primeras vivencias en el colegio, hemos mantenido la lealtad y los buenos momentos a lo largo del tiempo.",
-        imgSrc: "imagen2.jpeg"
+        imgSrc: "imagen2.jpeg",
+        fallback: "imagen2.jpg"
       },
       {
         title: "Un Gran Paso",
         text: "Y ahora que se acerca uno de los eventos más trascendentales, quiero que me acompañes en un rol muy especial.",
         imgSrc: "imagen3.jpeg",
+        fallback: "imagen3.jpg",
         finalStep: true
       }
     ];
@@ -708,7 +721,7 @@
       if (data.imgSrc) {
         html += `
           <div class="img-frame">
-            <img src="${data.imgSrc}" alt="Recuerdo" onerror="this.onerror=null; this.src='${data.imgSrc.replace('.jpeg', '.jpg')}';">
+            <img src="${data.imgSrc}" alt="Recuerdo" onerror="handleImageError(this, '${data.fallback}')">
           </div>
         `;
       }
@@ -846,7 +859,7 @@
       window.open(`https://wa.me/?text=${message}`, '_blank');
     }
 
-    // Inicializar flechas
+    // Inicializar flecha atrás
     updateNavArrows();
   </script>
 </body>
