@@ -84,16 +84,6 @@
       box-shadow: 0 0 12px rgba(85, 255, 136, 0.3);
     }
 
-    /* Ocultar reproductor invisible de YouTube */
-    #ytPlayerContainer {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
     /* Marco Elegante */
     .scene {
       width: 100%;
@@ -412,9 +402,11 @@
 </head>
 <body>
 
-  <div id="ytPlayerContainer">
-    <div id="ytPlayer"></div>
-  </div>
+  <audio id="bgMusic" loop preload="auto">
+    <source src="musica.mp3" type="audio/mpeg">
+    <source src="musica.m4a" type="audio/mp4">
+    <source src="musica.mp3.m4a" type="audio/mp4">
+  </audio>
 
   <div class="audio-bar">
     <button class="btn-audio-explicit" id="btnAudio" onclick="toggleExplicitAudio()">
@@ -544,90 +536,44 @@
 
   </div>
 
-  <script src="https://www.youtube.com/iframe_api"></script>
-
   <script>
-    // ID de la canción de YouTube (Cambia esta clave por la de tu canción favorita)
-    const youtubeVideoId = "30b08O9N-_U";
-
-    let player;
-    let isYtReady = false;
+    /* CONTROL DE AUDIO LOCAL (musica.mp3) */
+    const audio = document.getElementById('bgMusic');
+    const btnAudio = document.getElementById('btnAudio');
+    const audioIcon = document.getElementById('audioIcon');
+    const audioText = document.getElementById('audioText');
     let isPlaying = false;
 
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('ytPlayer', {
-        height: '1',
-        width: '1',
-        videoId: youtubeVideoId,
-        playerVars: {
-          'playsinline': 1,
-          'controls': 0,
-          'loop': 1,
-          'playlist': youtubeVideoId
-        },
-        events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
-      });
-    }
-
-    function onPlayerReady(event) {
-      isYtReady = true;
-    }
-
-    function onPlayerStateChange(event) {
-      if (event.data == YT.PlayerState.PLAYING) {
-        isPlaying = true;
-        btnAudio.classList.add('playing');
-        audioIcon.innerText = '⏸';
-        audioText.innerText = 'PAUSAR MÚSICA';
-      } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+    function toggleExplicitAudio() {
+      if (isPlaying) {
+        audio.pause();
         isPlaying = false;
         btnAudio.classList.remove('playing');
         audioIcon.innerText = '▶';
         audioText.innerText = 'REPRODUCIR MÚSICA';
-      }
-    }
-
-    /* -----------------------------------------------------------
-       NAVEGACIÓN — CORREGIDA
-       Antes: usaba un arreglo fijo "sequence" con posiciones
-       lineales, así que si entrabas al Menú y saltabas directo
-       a "Wordle" o "Línea del Tiempo", el botón "‹ Atrás" te
-       llevaba a la tarjeta equivocada (a "Nuestra Historia" en
-       lugar de al Menú), porque solo miraba el índice fijo.
-       Ahora: se usa una pila de historial real (navHistory), así
-       que "Atrás" siempre regresa a la tarjeta desde la que
-       realmente llegaste, sin importar qué botón del menú usaste.
-    ----------------------------------------------------------- */
-    let navHistory = ['cardHome'];
-    let activeCardId = 'cardHome';
-    
-    const btnAudio = document.getElementById('btnAudio');
-    const audioIcon = document.getElementById('audioIcon');
-    const audioText = document.getElementById('audioText');
-
-    /* CONTROL DE REPRODUCCIÓN YOUTUBE */
-    function toggleExplicitAudio() {
-      if (!isYtReady || !player) {
-        alert("La música está cargando, intenta de nuevo en un segundo.");
-        return;
-      }
-
-      if (isPlaying) {
-        player.pauseVideo();
       } else {
-        player.playVideo();
+        audio.play().then(() => {
+          isPlaying = true;
+          btnAudio.classList.add('playing');
+          audioIcon.innerText = '⏸';
+          audioText.innerText = 'PAUSAR MÚSICA';
+        }).catch(err => {
+          console.log("Error al reproducir musica.mp3:", err);
+          alert("No se pudo reproducir 'musica.mp3'. Asegúrate de que el archivo esté subido en GitHub en la misma carpeta que index.html.");
+        });
       }
     }
 
     function enterApp() {
-      if (!isPlaying && isYtReady && player) {
-        player.playVideo();
+      if (!isPlaying) {
+        toggleExplicitAudio();
       }
       goToCard('cardMenu');
     }
+
+    /* NAVEGACIÓN BASADA EN HISTORIAL (navHistory) */
+    let navHistory = ['cardHome'];
+    let activeCardId = 'cardHome';
 
     function updateNavArrows() {
       const btnPrev = document.getElementById('btnPrev');
@@ -678,11 +624,9 @@
 
     /* MANEJO ROBUSTO DE ERRORES DE IMAGEN */
     function handleImageError(imgTag, fallbackSrc) {
-      // Si la imagen falla, intentamos cambiar .jpeg por .jpg
       if (imgTag.src.endsWith('.jpeg')) {
         imgTag.src = fallbackSrc;
       } else {
-        // Si el respaldo .jpg también falla, ocultamos la imagen y mostramos el icono decorativo
         const frame = imgTag.parentElement;
         frame.classList.add('error');
         imgTag.style.display = 'none';
@@ -847,8 +791,6 @@
       const btn = document.getElementById('noBtn');
       const warning = document.getElementById('noWarning');
 
-      // Limitado a un rango más pequeño para que el botón no se
-      // salga del área visible de la tarjeta en pantallas angostas.
       const randomX = (Math.random() - 0.5) * 90;
       const randomY = (Math.random() - 0.5) * 40;
 
