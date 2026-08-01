@@ -46,6 +46,39 @@
       color: var(--text-light);
     }
 
+    /* Botón Flotante de Música */
+    .music-control {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 100;
+      background: rgba(24, 26, 38, 0.85);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-primary);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+
+    .music-control.playing {
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
     /* Marco Elegante */
     .scene {
       width: 100%;
@@ -301,6 +334,14 @@
 </head>
 <body>
 
+  <audio id="bgMusic" loop preload="auto">
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+
+  <button class="music-control" id="musicBtn" onclick="toggleMusic()" title="Reproducir / Pausar Música">
+    🎵
+  </button>
+
   <div class="scene">
 
     <div class="card active" id="cardHome">
@@ -319,7 +360,7 @@
       </div>
 
       <div>
-        <button class="btn-gold" onclick="goToCard('cardMenu')">INGRESAR 🎼</button>
+        <button class="btn-gold" onclick="enterApp()">INGRESAR 🎼</button>
       </div>
       <div class="deco-music-bottom">🎹</div>
     </div>
@@ -356,8 +397,7 @@
         <p class="title-cinzel" style="font-size: 16px;">PALABRA SECRETA 🧩</p>
         <p class="text-elegant" style="font-size: 11px; margin-top: 4px;">Descubre la palabra clave de 6 letras para ingresar</p>
         
-        <div class="wordle-board" id="wordleBoard">
-          </div>
+        <div class="wordle-board" id="wordleBoard"></div>
 
         <div class="wordle-input-container">
           <input type="text" id="wordleInput" class="wordle-input" maxlength="6" placeholder="______" autocomplete="off">
@@ -423,6 +463,36 @@
 
   <script>
     let activeCardId = 'cardHome';
+    const audio = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let isPlaying = false;
+
+    /* REPRODUCCIÓN DE MÚSICA */
+    function playMusic() {
+      audio.play().then(() => {
+        isPlaying = true;
+        musicBtn.classList.add('playing');
+        musicBtn.innerText = '🎵';
+      }).catch(err => {
+        console.log("Autoplay bloqueado por el navegador:", err);
+      });
+    }
+
+    function toggleMusic() {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        musicBtn.classList.remove('playing');
+        musicBtn.innerText = '🔇';
+      } else {
+        playMusic();
+      }
+    }
+
+    function enterApp() {
+      playMusic();
+      goToCard('cardMenu');
+    }
 
     function goToCard(targetId) {
       const current = document.getElementById(activeCardId);
